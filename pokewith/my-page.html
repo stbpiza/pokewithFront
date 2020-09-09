@@ -10,13 +10,13 @@
     <title>PokeWith | My Page</title>
 
     <!-- favicon -->
-    <link rel="shortcut icon" href="img/poke-favi.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="src/img/poke-favi.png" type="image/x-icon" />
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link href="src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.css" rel="stylesheet" />
+    <link href="src/css/sb-admin-2.css" rel="stylesheet" />
   </head>
 
   <body id="page-top">
@@ -27,7 +27,7 @@
         <!-- Sidebar - Brand -->
         <div class="logo" style="margin-bottom: 50px; margin-top: 50px">
           <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <img src="img/poke-logo2.png" />
+            <img src="src/img/poke-logo2.png" />
           </a>
         </div>
 
@@ -111,7 +111,7 @@
 
             <!-- Topbar Search -->
             <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-              <img src="img/poke-logo.png" />
+              <img src="src/img/poke-logo.png" />
             </form>
 
             <!-- Topbar Navbar -->
@@ -179,24 +179,43 @@
             <div class="row">
               <div class="container-fluid">
                 <!-- post -->
-                <div class="card shadow mb-4">
+                <div class="card shadow mb-4 add-user-area">
                   <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-black">My Account</h6>
-                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">Edit</a>
+                    <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">Edit</a> -->
                   </div>
                   <div class="card-body">
-                    <div class="profile">
-                      <img class="profile-img" src="img/default-user-profile.png" alt="profile" />
-                      <h3 class="profile-name">testuser1</h3>
+                    <div class="flex-col-center">
+                      <img class="profile-img" src="src/img/default-user-profile.png" alt="profile" />
+                      <div class="profile-name">testuser1</div>
                     </div>
                   </div>
-                  <hr class="sidebar-divider" />
-                  <div class="card-body">
-                    <span>Nickname1</span>
-                    <span>1111 1111 1111</span>
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-black">게임ID 설정</h6>
+                  </div>
+
+                  <div class="card-body flex-row-center">
+                    <ul class="user-area">
+                      <li class="flex-row-center user-list">
+                        <span id="nickName1">p1</span>
+                        <span id="friendCode1">111111111111</span>
+                      </li>
+                    </ul>
                   </div>
                   <hr class="sidebar-divider" />
-                  <div class="card-body"></div>
+                  <div class="card-body flex-col-center">
+                    <input type="text" id="nickName" class="nick-name form-control hidden" placeholder="Nick Name (Game ID)" required />
+                    <input
+                      type="text"
+                      id="friendCode"
+                      class="friend-code form-control hidden"
+                      placeholder="Friend Code (12자리 숫자)"
+                      maxlength="12"
+                      required
+                    />
+                    <button class="add-btn d-sm-inline-block btn btn-sm btn-danger shadow-sm">Add</button>
+                    <button class="register-btn d-sm-inline-block btn btn-sm btn-danger shadow-sm">Register</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -225,13 +244,74 @@
     </a>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="src/vendor/jquery/jquery.min.js"></script>
+    <script src="src/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="src/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="src/js/sb-admin-2.min.js"></script>
+    <script>
+      const addBtn = document.querySelector('.add-btn');
+      const registerBtn = document.querySelector('.register-btn');
+      const userArea = document.querySelector('.user-area');
+      const nickName = document.querySelector('.nick-name');
+      const friendCode = document.querySelector('.friend-code');
+
+      function showInput() {
+        nickName.classList.remove('hidden');
+        friendCode.classList.remove('hidden');
+      }
+
+      function addUser() {
+        if (nickName.value !== '' && friendCode.value !== '') {
+          const li = document.createElement('li');
+          const delBtn = document.createElement('button');
+          const nickNameSpan = document.createElement('span');
+          const friendCodeSpan = document.createElement('span');
+          const userList = document.querySelectorAll('.user-list');
+
+          if (userList.length < 5) {
+            if (friendCode.value.length === 12) {
+              userArea.appendChild(li);
+              li.setAttribute('class', 'user-list flex-row-center');
+
+              li.appendChild(nickNameSpan);
+              nickNameSpan.setAttribute('id', `nickName${userList.length + 1}`);
+              nickNameSpan.innerText = `${nickName.value}`;
+
+              li.appendChild(friendCodeSpan);
+              friendCodeSpan.setAttribute('id', `friendCode${userList.length + 1}`);
+              friendCodeSpan.innerText = `${friendCode.value}`;
+
+              li.appendChild(delBtn);
+              delBtn.setAttribute('class', 'del-btn btn btn-warning');
+              delBtn.innerText = '❌';
+              const delBtns = document.querySelectorAll('.del-btn');
+              for (let i = 0; i < delBtns.length; i++) {
+                delBtns[i].addEventListener('click', (e) => {
+                  console.log(e.target);
+                });
+              }
+
+              nickName.value = '';
+              friendCode.value = '';
+            } else {
+              alert('친구코드를 확인 후 다시 입력해주세요.');
+              friendCode.value = '';
+            }
+          } else {
+            alert('ID는 최대 5개까지만 등록할 수 있습니다.');
+          }
+        } else if (nickName.value == '') {
+          alert('아이디를 입력하세요.');
+        } else if (friendCode.value == '') {
+          alert('친구 코드를 입력하세요.');
+        }
+      }
+      addBtn.addEventListener('click', showInput);
+      registerBtn.addEventListener('click', addUser);
+    </script>
   </body>
 </html>
