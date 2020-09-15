@@ -12,13 +12,13 @@
   <title>PokeWith</title>
 
   <!-- favicon -->
-  <link rel="shortcut icon" href="src/img/poke-favi.png" type="image/x-icon">
+  <link rel="shortcut icon" href="/img/poke-favi.png" type="image/x-icon">
   <!-- Custom fonts for this template-->
-  <link href="src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="src/css/sb-admin-2.css" rel="stylesheet">
+  <link href="/css/sb-admin-2.css" rel="stylesheet">
 
 </head>
 
@@ -33,7 +33,7 @@
       <!-- Sidebar - Brand -->
       <div class="mt-5 mb-5">
         <a class="sidebar-brand d-flex mt-5 align-items-center justify-content-center" href="index.html">
-          <img src="src/img/poke-logo2.png">
+          <img src="/img/poke-logo2.png">
         </a>
       </div>
 
@@ -89,7 +89,7 @@
           </button>
           
           <a class="navbar-brand" href="#">
-            <img src="src/img/poke-logo.png">
+            <img src="/img/poke-logo.png">
           </a>
 
           <!-- mini Navbar -->
@@ -97,11 +97,11 @@
             <ul class="nav nav-pills justify-content-end">
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                  <img src="src/img/poke-circle2.png" style="width: 50px;">
+                  <img src="/img/poke-circle2.png" style="width: 50px;">
                 </a>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="#">My page</a>
-                  <a href="#" class="dropdown-item">Posts</a>
+                  <a href="javascript: createPost()" class="dropdown-item">Posts</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">Sign up</a>
                   <a class="dropdown-item" href="#">Login</a>
@@ -116,7 +116,7 @@
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link" href="#">
-                  <img src="src/img/poke-circle2.png" style="width: 50px;">
+                  <img src="/img/poke-circle2.png" style="width: 50px;">
                 </a>
               </li>
               <li class="nav-item">
@@ -176,14 +176,14 @@
   </a>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="src/vendor/jquery/jquery.min.js"></script>
-  <script src="src/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="src/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="src/js/sb-admin-2.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
 
 
   <script defer>
@@ -206,6 +206,7 @@
       str += "<div class='dropdown-divider'></div>"
       str += "<div class='card-body'>";
       str += `
+        <input type='hidden' id='postId'></p>
         <p>Kind of Raid : <input type='text' id='raidKind'></p>
         <p>Level of Raid : <select name="searchYear" id="raidLevel">
                               <option value="1">1</option>
@@ -216,6 +217,8 @@
         <p>Start Time of Raid : <input type='time' id='raidStart'></p>
         <p>End Time of Raid : <input type='time' id='raidEnd'></p>
         <p>Minimum Level of Raid : <input type='number' id='minLevel'></p>
+        <p>Premium Pass : <input type='number' id='nPass'></p>
+        <p>Remote Pass : <input type='number' id='rPass'></p>
       `;
       newDiv2.innerHTML = str;
 
@@ -229,77 +232,304 @@
       var submitText = document.createTextNode('submit');
       submitBtn.appendChild(submitText);
 
-      var hideBtn = document.createElement("button");
-      hideBtn.setAttribute("class", "border-0 btn-danger comment-btn");
-      hideBtn.setAttribute("id", "hide-btn");
-
-      var hideText = document.createTextNode('hide');
-      hideBtn.appendChild(hideText);
-
       newDiv3.appendChild(submitBtn);
-      newDiv3.appendChild(hideBtn);
-      
+
       newDiv2.appendChild(newDiv3);
 
       var postbox = document.querySelector("#post-box");
       postbox.appendChild(newDiv);
 
       submitBtn.addEventListener('click', addPost);
-      hideBtn.addEventListener('click', hide);
+      submitBtn.addEventListener('click', hide);
+    
     }
 
     function hide(){
       var cardBox = document.querySelector( "#cardBox" );
       var postBox = document.querySelector( "#post-box" );
 
-      console.log(cardBox);
-
       postBox.removeChild(cardBox); 
+
     }
 
     function addPost() {
+    
+        var data = [
+            { id : 1,
+                title : '이상해씨 레이드',
+                pokemon : '이상해씨',
+                raidLevel : 1,
+                startTime : '03:30',
+                endTime : '04:15',
+                minLevel : 20,
+                nPass : 3,
+                rPass : 0 },
 
-      var posts = {
-        title : document.querySelector("#title").value,
-        raidKind : document.querySelector("#raidKind").value,
-        raidLevel : document.querySelector("#raidLevel").value,
-        raidStart : document.querySelector("#raidStart").value,
-        raidEnd : document.querySelector("#raidEnd").value,
-        minLevel : document.querySelector("#minLevel").value
+            { id : 2,
+                title : '리자몽 레이드',
+                pokemon : '리자몽',
+                raidLevel : 3,
+                startTime : '03:30',
+                endTime : '04:15',
+                minLevel : 30,
+                nPass : 0,
+                rPass : 1 },
+
+            { id : 3,
+                title : '리자몽 레이드',
+                pokemon : '리자몽',
+                raidLevel : 5,
+                startTime : '03:30',
+                endTime : '04:15',
+                minLevel : 40,
+                nPass : 5,
+                rPass : 0 },
+
+            { id : 4,
+                title : '히드런 레이드',
+                pokemon : '히드런',
+                startTime : 'mega',
+                raidStart : '03:30',
+                endTime : '04:15',
+                minLevel : 40,
+                nPass : 3,
+                rPass : 1 },
+        ]
+
+      for(var i = 0; i < data.length; i++){
+        var addDiv = document.createElement("div");
+        addDiv.setAttribute("class", "card shadow mb-4");
+        addDiv.setAttribute("id", "result-box");
+
+        var addDiv2 = document.createElement("div");
+        addDiv2.setAttribute("class", "card-body");
+
+        addDiv.appendChild(addDiv2);
+
+        if(data[i].raidLevel == '1') {
+            str = "<img src = '/img/1.PNG' style='width:50px'>"
+        } else if(data[i].raidLevel == '3') {
+            str = "<img src = '/img/3.PNG' style='width:50px'>"
+        } else if(data[i].raidLevel == '5') {
+            str = "<img src = '/img/5.PNG' style='width:50px'>"
+        } else {
+            str = "<img src = '/img/mega.PNG' style='width:50px'>"
+        }
+        
+        addDiv2.innerHTML += '<input type="hidden" id="postId" name="postId" value="'+ data[i].id +'">';
+        addDiv2.innerHTML += '<p> Title : '+data[i].title+'</p>';
+        addDiv2.innerHTML += '<p> Kind of Raid : '+data[i].pokemon+'</p>';
+        addDiv2.innerHTML += '<p> Level of Raid : '+str+'</p>';
+        addDiv2.innerHTML += '<p> Start Time of Raid : '+data[i].startTime+'</p>';
+        addDiv2.innerHTML += '<p> End Time of Raid : '+data[i].endTime+'</p>';
+        addDiv2.innerHTML += '<p> Minimum Level of Raid : '+data[i].minLevel+'</p>';
+        addDiv2.innerHTML += '<p> Premium Pass : <img src="/img/3_premium.png" style="width:60px"> / <img src="/img/2_premium.png" style="width:50px">  '+data[i].nPass+'</p>';
+        addDiv2.innerHTML += '<p> Remote Pass : <img src="/img/1_remote.png" style="width:60px"> '+data[i].rPass+'</p>';
+    
+        var addDiv3 = document.createElement('div');
+        addDiv3.setAttribute('class', 'commentBox');
+        addDiv3.setAttribute('id', 'commentBox');
+
+        var hideA = document.createElement('button');
+        hideA.setAttribute('class', 'hide-link');
+        
+
+        var hideText = document.createTextNode('comment');
+
+        hideA.appendChild(hideText);
+
+        addDiv3.appendChild(hideA);
+
+        var divide = document.createElement('div');
+        divide.setAttribute('class', 'dropdown-divider');
+
+        addDiv3.appendChild(divide);
+
+        addDiv2.appendChild(addDiv3);
+
+        var postbox = document.querySelector("#post-box");
+        
+        var allBox = document.querySelectorAll("#result-box");
+        
+        var num = data[i].id;
+
+        console.log(num);
+
+        var addDiv2 = document.createElement("div");
+        addDiv2.setAttribute('class', 'comment-box');
+
+        
+        var newForm = document.createElement("div");
+        newForm.setAttribute('class', 'comment-wrap wrap'+ num);
+
+        var str = "";
+
+        str+="<span class='checked'><input type='checkbox' name='nickname"+num+"' value='1'> 1. nick1</span>";
+
+        str+="<span class='checked'><input type='checkbox' name='nickname"+num+"' value='2'> 2. nick2</span>";
+
+        str+="<span class='checked'><input type='checkbox' name='nickname"+num+"' value='3'> 3. nick3</span>";
+        
+        str+="<span class='checked'><input type='checkbox' name='nickname"+num+"' value='4'> 4. nick4</span>";
+
+        str+="<span class='checked'><input type='checkbox' name='nickname"+num+"' value='5'> 5. nick5 </span></br>";
+
+        newForm.innerHTML = str;
+
+        newSubmit = document.createElement('input');
+
+        newSubmit.setAttribute('class', 'comment-submit');
+        newSubmit.setAttribute('type', 'submit');
+        newSubmit.setAttribute('value', 'submit');
+
+        newForm.appendChild(newSubmit);
+
+        addDiv2.append(newForm);
+
+        addDiv.appendChild(addDiv2);
+
+
+        addDiv.setAttribute('class', 'card'+num + ' ' + 'card shadow mb-4');
+        hideA.setAttribute('class', 'hide-link' + ' ' + 'hide'+num);
+        addDiv2.setAttribute('class', 'comment-box'+num);
+
+        hideA.setAttribute('onclick', "hideCommentBox(" + num + ")");
+        newSubmit.setAttribute('onclick', "commitComment(" + num + ")");
+
+        postbox.appendChild(addDiv);
+        
+        var commentBox = document.querySelector('.comment-box'+num);
+        commentBox.style.display = 'none';
+
       }
 
-      console.log(posts);
-      
-      var addDiv = document.createElement("div");
-      addDiv.setAttribute("class", "card shadow mb-4");
+    }; 
 
-      var addDiv2 = document.createElement("div");
-      addDiv2.setAttribute("class", "card-header py-3");
-      
-      addDiv.appendChild(addDiv2);
+    function commitComment(num) {
 
-      if(posts.raidLevel == '1') {
-        str = "<img src = 'src/img/1.PNG' style='width:50px'>"
-      } else if(posts.raidLevel == '3') {
-        str = "<img src = 'src/img/3.PNG' style='width:50px'>"
-      } else if(posts.raidLevel == '5') {
-        str = "<img src = 'src/img/5.PNG' style='width:50px'>"
-      } else {
-        str = "<img src = 'src/img/mega.PNG' style='width:50px'>"
+        var check_count = document.getElementsByName("nickname"+num).length;
+
+        console.log(check_count);
+
+        var newDiv = document.createElement("div");
+        newDiv.setAttribute('class', 'card-body');
+ 
+        var newDiv2 = document.createElement("div");
+        newDiv2.setAttribute('class', 'nickname');
+        newDiv2.setAttribute('id', 'nickName' + num);
+
+        newDiv.appendChild(newDiv2);
+
+        var newCheck = document.createElement("input");
+        newCheck.setAttribute('class', 'checkUser');
+        newCheck.setAttribute('type', 'radio');
+        newCheck.setAttribute('value', 'selecting');
+
+        newDiv2.appendChild(newCheck);
+
+        
+        var sum = 0;
+        var result = '';   
+        for (var i=0; i<check_count; i++) {
+            if (document.getElementsByName("nickname"+num)[i].checked == true) {
+                var checkedStr = document.getElementsByName("nickname"+num)[i].value;
+                
+                sum += checkedStr.length;
+
+                result += checkedStr;
+                
+            }
+        }
+        
+        alert(result);
+
+        var str = '';
+        str += '<input type="radio" id="checkUser'+ num +'" onclick="checkedUser('+ result + ',' + num +')" value="nickname1"> ';
+        str += 'nickname1 <img src="/img/1_remote.png" style="width:60px"> ';
+        str += sum + '</br>';
+        
+        newDiv2.innerHTML = str;
+        var commentBox = document.querySelector(".comment-box"+num);
+
+        commentBox.appendChild(newDiv2);
+
+        var commentWrap = document.querySelector(".wrap" + num);
+        commentWrap.style.display = 'none';
+    }
+
+    function checkedUser(result, num) {
+      var data = [{ 
+          friendCode1: '234039304433',
+          friendCode2: '534039304339',
+          friendCode3: '264079308433',
+          friendCode4: '434930206473',
+          friendCode5: '834939314353'
+        }]
+
+      var data2 = [{ 
+        nickname1: 'nickname1',
+        nickname2: 'nickname2',
+        nickname3: 'nickname3',
+        nickname4: 'nickname4',
+        nickname5: 'nickname5'
+      }]
+
+      var checkedUser = document.getElementById("checkUser" + num);
+      if(checkedUser.checked == true) {
+        document.getElementById("nickName" + num).style.border = "thick solid #0000FF";
+        document.getElementById("checkUser" + num).style.display = 'none';
+
+        console.log(result.toString());
+        result = result.toString();
+
+        var nickNameBox = document.querySelector('#nickName' + num);
+        
+        var newP = document.createElement("p");
+
+        var arr = [];
+        var arr2 = [];
+
+        str = '';
+        for (var i = 0 ; i < result.length; i++){
+          if(result[i] == '1'){
+            arr.push(data[0].friendCode1);
+            arr2.push(data2[0].nickname1);
+          } else if (result[i] == '2') {
+            arr.push(data[0].friendCode2);
+            arr2.push(data2[0].nickname2);
+          } else if (result[i] == '3') {
+            arr.push(data[0].friendCode3);
+            arr2.push(data2[0].nickname3);
+          } else if (result[i] == '4') {
+            arr.push(data[0].friendCode4);
+            arr2.push(data2[0].nickname4);
+          } else {
+            arr.push(data[0].friendCode5);
+            arr2.push(data2[0].nickname5);
+          }
+
+          str += arr2[i] + ' ' + arr[i] + '</br>';
+        }
+          console.log(arr);
+
+          newP.innerHTML = str;
+
+        nickNameBox.appendChild(newP);
       }
-      
 
-      addDiv2.innerHTML += '<p> Title : '+posts.title+'</p>';
-      addDiv2.innerHTML += '<p> Kind of Raid : '+posts.raidKind+'</p>';
-      addDiv2.innerHTML += '<p> Level of Raid : '+str+'</p>';
-      addDiv2.innerHTML += '<p> Start Time of Raid : '+posts.raidStart+'</p>';
-      addDiv2.innerHTML += '<p> End Time of Raid : '+posts.raidEnd+'</p>';
-      addDiv2.innerHTML += '<p> Minimum Level of Raid : '+posts.minLevel+'</p>';
+    }
 
-      var postbox = document.querySelector("#post-box");
-      postbox.appendChild(addDiv);
+    function hideCommentBox(num) {
 
-    };
+        var vomit = document.querySelector('.comment-box'+num);
+        
+        if(vomit.style.display == 'none'){
+            vomit.style.display = 'block';
+        }else {
+            vomit.style.display = 'none';
+        }
+
+    }
 
   </script>
 
