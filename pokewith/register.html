@@ -1,64 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-<head>
+    <title>PokeWith :: Register</title>
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="src/img/poke-favi.png" type="image/x-icon" />
+    <!-- Custom fonts for this template-->
+    <link href="src/vendor/fontawesome-free/css/all.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
 
-  <title>PokeWith :: Register</title>
+    <!-- Custom styles for this template-->
+    <link href="src/css/sb-admin-2.css" rel="stylesheet" />
+  </head>
 
-  
-  <!-- favicon -->
-  <link rel="shortcut icon" href="src/img/poke-favi.png" type="image/x-icon">
-  <!-- Custom fonts for this template-->
-  <link href="src/vendor/fontawesome-free/css/all.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-  <!-- Custom styles for this template-->
-  <link href="src/css/sb-admin-2.css" rel="stylesheet">
-
-</head>
-
-<body class="bg-gradient-info">
-
-  <div class="container">
-
-    <div class="card o-hidden border-0 shadow-lg my-5">
-      <div class="card-body p-0">
-        <!-- Nested Row within Card Body -->
-        <div class="row">
-          <div class="col-lg-5 d-none d-lg-block bg-warning">
-            <div class="d-flex justify-content-center mt-5">
-              <img src="src/img/paduck.png">
+  <body class="bg-gradient-info">
+    <div class="container">
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-5 d-none d-lg-block bg-warning">
+              <div class="d-flex justify-content-center mt-5">
+                <img src="src/img/paduck.png" />
+              </div>
             </div>
-          </div>
-          <div class="col-lg-7">
-            <div class="p-5">
-              <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">Account Option</h1>
-                <p>Please insert additional information.</p>
-              </div>
-              <form class="user">
-                <div class="form-group">
-                  <input type="text" class="form-control form-control-user" id="nickName" placeholder="Nickname">
+            <div class="col-lg-7">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Account Option</h1>
+                  <p>Please insert additional information.</p>
                 </div>
-                <div class="form-group">
-                  <input type="text" class="form-control form-control-user" id="friendCode" placeholder="Friendcode">
-                </div>
-                <a href="login.html" class="btn btn-info btn-user btn-block">
-                  Register Account
-                </a>
-              </form>
-              <hr>
-              <div class="text-center">
-                <a class="small" href="forgot-password.html">Forgot Password?</a>
-              </div>
-              <div class="text-center">
-                <a class="small" href="login.html">Already have an account? Login!</a>
+                <form class="user">
+                  <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="nickname1" placeholder="Nickname" />
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="friendCode1" placeholder="Friendcode" maxlength="12" />
+                  </div>
+                  <div class="text-center error-msg"></div>
+                  <a href="login.html" id="register-btn" class="btn btn-info btn-user btn-block"> Register Account </a>
+                  <a href="#" id="clear-btn" class="btn btn-warning btn-user btn-block"> Clear </a>
+                </form>
+                <hr />
+                <!-- <div class="text-center">
+                  <a class="small" href="forgot-password.html">Forgot Password?</a>
+                </div> -->
+                <!-- <div class="text-center">
+                  <a class="small" href="login.html">Already have an account? Login!</a>
+                </div> -->
               </div>
             </div>
           </div>
@@ -66,18 +61,49 @@
       </div>
     </div>
 
-  </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="src/vendor/jquery/jquery.min.js"></script>
+    <script src="src/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="src/vendor/jquery/jquery.min.js"></script>
-  <script src="src/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="src/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  <!-- Core plugin JavaScript-->
-  <script src="src/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="src/js/sb-admin-2.min.js"></script>
 
-  <!-- Custom scripts for all pages-->
-  <script src="src/js/sb-admin-2.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('#register-btn').click(function (e) {
+          e.preventDefault();
 
-</body>
+          let data = { nickname1: $('#nickname1').val(), friendCode1: $('#friendCode1').val() };
+          jsonData = JSON.stringify(data);
+          console.log($('#friendCode1').val().length);
 
+          $.ajax({
+            type: 'post',
+            url: '/newsignjson',
+            data: jsonData,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+              console.log(data);
+              alert('success');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              alert(`error! \n ${textStatus} : ${errorThrown}`);
+            },
+          });
+        });
+
+        $('#clear-btn').click(function (e) {
+          e.preventDefault();
+
+          $('#friendCode1').val('');
+          $('#nickname1').val('');
+          $('.error-msg').remove();
+        });
+      });
+    </script>
+  </body>
 </html>

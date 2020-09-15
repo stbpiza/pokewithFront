@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <meta name="author" content="Pokewith" />
 
-    <title>PokeWith | My Page</title>
+    <title>PokeWith :: My Page</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="src/img/poke-favi.png" type="image/x-icon" />
@@ -58,37 +58,6 @@
               <a class="collapse-item" href="#">Nickname3</a>
               <a class="collapse-item" href="#">Nickname4</a>
               <a class="collapse-item" href="#">Nickname5</a>
-            </div>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-comment-dots"></i>
-            <span>Chat With</span>
-          </a>
-          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-              <div class="collapse-item">
-                <span>Player 1</span>
-                <span>I'm ready🙃</span>
-                <span class="time-stamp">AM 11:00</span>
-              </div>
-              <div class="collapse-item">
-                <span>Player 2</span>
-                <span>Hold on, please😂</span>
-                <span class="time-stamp">AM 11:01</span>
-              </div>
-              <div class="collapse-item">
-                <span>Player 4</span>
-                <span>I'm ready🙃</span>
-                <span class="time-stamp">AM 11:01</span>
-              </div>
-              <select type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <option>I'm ready🙃</option>
-                <option>Hold on, please😂</option>
-                <option>Sorry, guys I'm out😪</option>
-              </select>
-              <button type="submit" class="btn btn-info">Chat</button>
             </div>
           </div>
         </li>
@@ -185,36 +154,70 @@
                     <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">Edit</a> -->
                   </div>
                   <div class="card-body">
-                    <div class="flex-col-center">
+                    <div class="d-flex flex-column justify-content-center align-items-center">
                       <img class="profile-img" src="src/img/default-user-profile.png" alt="profile" />
                       <div class="profile-name">testuser1</div>
                     </div>
                   </div>
-                  <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-black">게임ID 설정</h6>
-                  </div>
 
-                  <div class="card-body flex-row-center">
-                    <ul class="user-area">
-                      <li class="flex-row-center user-list">
-                        <span id="nickName1">p1</span>
-                        <span id="friendCode1">111111111111</span>
-                      </li>
-                    </ul>
+                  <div class="card-body">
+                    <div class="card">
+                      <!-- Default panel contents -->
+                      <div class="card-header">User Information</div>
+
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <ul class="custom-id-list user-info">
+                          <li class="user-info-list d-flex justify-content-between align-items-center">
+                            <span id="idNumber1" name="idNumber1">#1</span>
+                            <div class="d-flex flex-column justify-content-center user-info-div">
+                              <span id="nickname1" name="nickname1">testuser1</span>
+                              <span id="friendCode1" name="friendCode1">111111111111</span>
+                            </div>
+                            <div class="d-flex flex-column btn-div">
+                              <button class="btn btn-default btn-sm edit-btn1">
+                                <i class="fas fa-pen"></i>
+                              </button>
+                              <button class="btn btn-default btn-sm d-none del-btn">
+                                <i class="fas fa-times"></i>
+                              </button>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                   <hr class="sidebar-divider" />
-                  <div class="card-body flex-col-center">
-                    <input type="text" id="nickName" class="nick-name form-control hidden" placeholder="Nick Name (Game ID)" required />
-                    <input
-                      type="text"
-                      id="friendCode"
-                      class="friend-code form-control hidden"
-                      placeholder="Friend Code (12자리 숫자)"
-                      maxlength="12"
-                      required
-                    />
-                    <button class="add-btn d-sm-inline-block btn btn-sm btn-danger shadow-sm">Add</button>
-                    <button class="register-btn d-sm-inline-block btn btn-sm btn-danger shadow-sm">Register</button>
+                  <div class="input-container card-body d-flex flex-column">
+                    <div class="msg-div"></div>
+                    <div class="input-area d-none">
+                      <select name="" id="" class="id-number custom-id-list form-control hidden">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                      <input
+                        type="text"
+                        id="nickname"
+                        class="custom-id-list nick-name form-control hidden"
+                        placeholder="Nick Name (Game ID)"
+                        required
+                      />
+                      <input
+                        type="text"
+                        id="friendCode"
+                        class="custom-id-list friend-code form-control hidden"
+                        placeholder="Friend Code (12-Digit)"
+                        maxlength="12"
+                        required
+                      />
+                    </div>
+
+                    <div class="card d-flex justify-content-center custom-id-list">
+                      <button class="add-btn d-sm-inline-block btn btn-sm btn-warning shadow-sm">Add</button>
+                      <button class="cancel-btn d-sm-inline-block btn btn-sm btn-danger shadow-sm">Cancel</button>
+                      <button class="register-btn d-sm-inline-block btn btn-sm btn-primary shadow-sm">Register</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -253,65 +256,96 @@
     <!-- Custom scripts for all pages-->
     <script src="src/js/sb-admin-2.min.js"></script>
     <script>
+      const userInfo = document.querySelector('.user-info');
+      const userInfoList = document.querySelector('.user-info-list');
+      const nameInput = document.querySelector('.nick-name');
+      const codeInput = document.querySelector('.friend-code');
+      const numberSelect = document.querySelector('.id-number');
+      const inputArea = document.querySelector('.input-area');
+      const inputContainer = document.querySelector('.input-container');
+
       const addBtn = document.querySelector('.add-btn');
+      const cancelBtn = document.querySelector('.cancel-btn');
       const registerBtn = document.querySelector('.register-btn');
-      const userArea = document.querySelector('.user-area');
-      const nickName = document.querySelector('.nick-name');
-      const friendCode = document.querySelector('.friend-code');
+      const ediBtn = document.querySelector('.edit-btn1');
+
+      let userInfoObj = [];
 
       function showInput() {
-        nickName.classList.remove('hidden');
-        friendCode.classList.remove('hidden');
+        inputArea.classList.remove('d-none');
+        // msgDiv.classList.remove('err-msg');
       }
 
-      function addUser() {
-        if (nickName.value !== '' && friendCode.value !== '') {
-          const li = document.createElement('li');
-          const delBtn = document.createElement('button');
-          const nickNameSpan = document.createElement('span');
-          const friendCodeSpan = document.createElement('span');
-          const userList = document.querySelectorAll('.user-list');
-
-          if (userList.length < 5) {
-            if (friendCode.value.length === 12) {
-              userArea.appendChild(li);
-              li.setAttribute('class', 'user-list flex-row-center');
-
-              li.appendChild(nickNameSpan);
-              nickNameSpan.setAttribute('id', `nickName${userList.length + 1}`);
-              nickNameSpan.innerText = `${nickName.value}`;
-
-              li.appendChild(friendCodeSpan);
-              friendCodeSpan.setAttribute('id', `friendCode${userList.length + 1}`);
-              friendCodeSpan.innerText = `${friendCode.value}`;
-
-              li.appendChild(delBtn);
-              delBtn.setAttribute('class', 'del-btn btn btn-warning');
-              delBtn.innerText = '❌';
-              const delBtns = document.querySelectorAll('.del-btn');
-              for (let i = 0; i < delBtns.length; i++) {
-                delBtns[i].addEventListener('click', (e) => {
-                  console.log(e.target);
-                });
-              }
-
-              nickName.value = '';
-              friendCode.value = '';
-            } else {
-              alert('친구코드를 확인 후 다시 입력해주세요.');
-              friendCode.value = '';
-            }
-          } else {
-            alert('ID는 최대 5개까지만 등록할 수 있습니다.');
-          }
-        } else if (nickName.value == '') {
-          alert('아이디를 입력하세요.');
-        } else if (friendCode.value == '') {
-          alert('친구 코드를 입력하세요.');
-        }
+      function hideInput() {
+        inputArea.classList.add('d-none');
+        // msgDiv.classList.remove('err-msg');
       }
-      addBtn.addEventListener('click', showInput);
-      registerBtn.addEventListener('click', addUser);
+
+      function editUserInfo(evt) {
+        const btn = evt.target;
+      }
+
+      function deleteUserInfo(evt) {
+        const btn = evt.target;
+        const li = btn.parentNode.parentNode.parentNode;
+        userInfo.removeChild(li);
+      }
+
+      function paintUserInfo(number, name, code) {
+        const newLi = document.createElement('li');
+        const delBtn = document.createElement('button');
+        const editBtn = document.createElement('button');
+        const userInfoDiv = document.createElement('div');
+        const btnDiv = document.createElement('div');
+        const numberSpan = document.createElement('span');
+        const nameSpan = document.createElement('span');
+        const codeSpan = document.createElement('span');
+
+        numberSpan.innerText = `#${number}`;
+
+        nameSpan.innerText = name;
+        codeSpan.innerText = code;
+        userInfoDiv.appendChild(nameSpan);
+        userInfoDiv.appendChild(codeSpan);
+        userInfoDiv.setAttribute('class', 'd-flex flex-column user-info-div');
+
+        editBtn.innerHTML = `<i class="fas fa-pen"></i>`;
+        delBtn.innerHTML = `<i class="fas fa-times"></i>`;
+
+        editBtn.setAttribute('class', 'btn btn-default btn-sm edit-btn');
+        delBtn.setAttribute('class', 'btn btn-default btn-sm del-btn');
+
+        editBtn.addEventListener('click', editUserInfo);
+        delBtn.addEventListener('click', deleteUserInfo);
+
+        btnDiv.appendChild(editBtn);
+        btnDiv.appendChild(delBtn);
+        btnDiv.setAttribute('class', 'd-flex flex-column btn-div');
+
+        newLi.appendChild(numberSpan);
+        newLi.appendChild(userInfoDiv);
+        newLi.appendChild(btnDiv);
+        newLi.setAttribute('class', 'user-info-list d-flex justify-content-between align-items-center');
+
+        userInfo.appendChild(newLi);
+      }
+
+      function handleSubmit(evt) {
+        evt.preventDefault();
+        const nameValue = nameInput.value;
+        const codeValue = codeInput.value;
+        const selectValue = numberSelect.value;
+        paintUserInfo(selectValue, nameValue, codeValue);
+        nameInput.value = '';
+      }
+
+      function init() {
+        addBtn.addEventListener('click', showInput);
+        cancelBtn.addEventListener('click', hideInput);
+        registerBtn.addEventListener('click', handleSubmit);
+        ediBtn.addEventListener('click', editUserInfo);
+      }
+      init();
     </script>
   </body>
 </html>
