@@ -170,8 +170,8 @@
                           <li class="user-info-list d-flex justify-content-between align-items-center">
                             <span id="idNumber1" name="idNumber1">#1</span>
                             <div class="d-flex flex-column justify-content-center user-info-div">
-                              <span id="nickname1" name="nickname1">testuser1</span>
-                              <span id="friendCode1" name="friendCode1">111111111111</span>
+                              <!-- <span id="nickname1" name="nickname1">testuser1</span>
+                              <span id="friendCode1" name="friendCode1">111111111111</span> -->
                             </div>
                             <div class="d-flex flex-column btn-div">
                               <button class="btn btn-default btn-sm edit-btn1">
@@ -196,24 +196,18 @@
                         <option value="4">4</option>
                         <option value="5">5</option>
                       </select>
-                      <input
-                        type="text"
-                        id="nickname"
-                        class="custom-id-list nick-name form-control hidden"
-                        placeholder="Nick Name (Game ID)"
-                        required
-                      />
+                      <input type="text" id="nickname" class="nick-name form-control d-none" placeholder="Nick Name (Game ID)" required />
                       <input
                         type="text"
                         id="friendCode"
-                        class="custom-id-list friend-code form-control hidden"
+                        class="friend-code form-control d-none"
                         placeholder="Friend Code (12-Digit)"
                         maxlength="12"
                         required
                       />
                     </div>
 
-                    <div class="card d-flex justify-content-center user-id-list">
+                    <div class="card d-flex justify-content-center">
                       <button class="add-btn d-sm-inline-block btn btn-sm btn-warning shadow-sm">Add</button>
                       <button class="cancel-btn d-sm-inline-block btn btn-sm btn-danger shadow-sm">Cancel</button>
                       <button class="register-btn d-sm-inline-block btn btn-sm btn-primary shadow-sm">Register</button>
@@ -269,7 +263,11 @@
       const registerBtn = document.querySelector('.register-btn');
       const ediBtn = document.querySelector('.edit-btn1');
 
-      let userInfoObj = [];
+      let userInfoObj = [
+        { nickname1: 'testuser1', friendCode1: '121212121212' },
+        { nickname2: 'testuser2', friendCode2: '131313131313' },
+        { nickname3: 'testuser3', friendCode3: '141414141414' },
+      ];
 
       function showInput() {
         inputArea.classList.remove('d-none');
