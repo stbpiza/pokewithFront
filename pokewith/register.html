@@ -17,6 +17,7 @@
 
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/custom-style.css" />
   </head>
 
   <body class="bg-gradient-info">
@@ -38,16 +39,16 @@
                 </div>
                 <form class="user" method="post">
                   <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="nickname1" placeholder="Nickname" />
+                    <input type="text" class="form-control form-control-user nickname1" id="nickname1" placeholder="Nickname" />
                   </div>
                   <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="friendCode1" placeholder="Friendcode" maxlength="12" />
+                    <input type="text" class="form-control form-control-user friendCode1" id="friendCode1" placeholder="Friendcode" maxlength="12" />
                   </div>
-                  <div class="text-center error-msg"></div>
-                  <a href="login.html" id="register-btn" class="btn btn-info btn-user btn-block"> Register Account </a>
-                  <a href="#" id="clear-btn" class="btn btn-warning btn-user btn-block"> Clear </a>
+                  <a href="#" id="register-btn" class="btn btn-info btn-user btn-block register-btn"> Register Account </a>
+                  <a href="#" id="clear-btn" class="btn btn-warning btn-user btn-block clear-btn"> Clear </a>
                 </form>
                 <hr />
+                <div class="text-center err-msg"></div>
                 <!-- <div class="text-center">
                   <a class="small" href="forgot-password.html">Forgot Password?</a>
                 </div> -->
@@ -72,38 +73,94 @@
     <script src="/js/sb-admin-2.min.js"></script>
 
     <script>
-      $(document).ready(function () {
-        $('#register-btn').click(function (e) {
-          e.preventDefault();
+      // jQuery AJAX 통신
 
-          let data = { nickname1: $('#nickname1').val(), friendCode1: $('#friendCode1').val() };
-          jsonData = JSON.stringify(data);
-          console.log($('#friendCode1').val().length);
+      // $(document).ready(function () {
+      //   $('#register-btn').click(function (e) {
+      //     e.preventDefault();
 
-          $.ajax({
-            type: 'post',
-            url: '/newsignjson',
-            data: jsonData,
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (data) {
-              console.log(data);
-              alert('success');
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              alert(`error! \n ${textStatus} : ${errorThrown}`);
-            },
-          });
-        });
+      //     let data = { nickname1: $('#nickname1').val(), friendCode1: $('#friendCode1').val() };
+      //     jsonData = JSON.stringify(data);
+      //     console.log($('#friendCode1').val().length);
 
-        $('#clear-btn').click(function (e) {
-          e.preventDefault();
+      //     $.ajax({
+      //       type: 'post',
+      //       url: '/newsignjson',
+      //       data: jsonData,
+      //       dataType: 'json',
+      //       contentType: 'application/json',
+      //       success: function (data) {
+      //         console.log(data);
+      //         alert('success');
+      //       },
+      //       error: function (jqXHR, textStatus, errorThrown) {
+      //         alert(`error! \n ${textStatus} : ${errorThrown}`);
+      //       },
+      //     });
+      //   });
 
-          $('#friendCode1').val('');
-          $('#nickname1').val('');
-          $('.error-msg').remove();
-        });
-      });
+      //   });
+
+      const registerBtn = document.querySelector(".register-btn");
+      const clearBtn = document.querySelector(".clear-btn");
+      const errMsg = document.querySelector(".err-msg");
+
+      const inputName = document.querySelector(".nickname1");
+      const inputCode = document.querySelector(".friendCode1");
+
+      // 더미 데이터
+      let userInfoObj = {
+        userId: "123456789",
+        nickname1: "",
+        friendCode1: "",
+      };
+
+      function clearInput(event) {
+        event.preventDefault();
+        inputName.value = "";
+        inputCode.value = "";
+        errMsg.innerText = "";
+      }
+
+      function handleRegister() {
+        const sendName = inputName.value;
+        const nameRgx = RegExp(/^[가-힣A-Za-z0-9_\-]{5,20}$/);
+        const name = nameRgx.test(sendName);
+        if (name == false) {
+          errMsg.innerText = "Check your Nickname.";
+        } else {
+          const sendCode = inputCode.value;
+          const codeRgx = RegExp(/^[0-9_\-]{12}$/);
+          const code = codeRgx.test(sendCode);
+          if (code == false) {
+            errMsg.innerText = "Check your Friend code.";
+          } else {
+            console.log("ajax ready :)");
+            // registerAPI();
+          }
+        }
+      }
+      // AJAX 날리는 방법 연구중.......
+
+      function registerAPI() {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (xhttp.readyState === xhttp.DONE) {
+            if (xhttp.status === 200 || xhttp.status === 201) {
+              console.log("success!");
+            } else {
+              console.log("err!");
+            }
+          }
+        };
+
+        xhttp.open("post", "/");
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send();
+      }
+
+      registerBtn.addEventListener("click", handleRegister);
+      clearBtn.addEventListener("click", clearInput);
     </script>
   </body>
 </html>
