@@ -140,7 +140,7 @@
           }
         }
       }
-      // AJAX 날리는 방법 연구중.......
+      // AJAX
 
       function registerAPI() {
         let xhttp = new XMLHttpRequest();
@@ -156,7 +156,7 @@
 
         xhttp.open("post", "/");
         xhttp.setRequestHeader("Content-Type", "application/json");
-        xhttp.send();
+        xhttp.send(JSON.stringify(userInfoObj));
       }
 
       registerBtn.addEventListener("click", handleRegister);
