@@ -10,7 +10,7 @@
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-:root {
+ :root {
   --blue: #4e73df;
   --indigo: #6610f2;
   --purple: #6f42c1;
@@ -6409,8 +6409,8 @@ button.bg-primary:focus {
   height: 50px;
 }
 
-.comment-input:focus, .comment-btn:focus{
-  outline:2px solid rgb(50, 149, 255);
+input:focus, button:focus{
+  outline: none;
 }
 
 .comment-btn{
@@ -6418,6 +6418,11 @@ button.bg-primary:focus {
   height: 50px;
   color: #fff;
   margin-right: 5px;
+}
+
+.commentDiv{
+  float: right; 
+  width:50%;
 }
 
 .hide-link {
@@ -6451,8 +6456,60 @@ button.bg-primary:focus {
 }
 
 .comment-wrap{
-  margin-top: 30px;
+  margin-top: 80px;
   text-align: center;
+}
+
+.commentWrap{
+  height: 80px;
+}
+
+.commentP{
+  float: left;
+  margin: 15px auto;
+}
+
+.ending {
+  background-image: URL( "/img/backImg.png");
+  background-size: 100%;
+  opacity: 0.6;
+}
+
+.endBody{
+  margin : 0 auto;
+  width: 80%;
+  height: 500px;
+  background-image: URL( "/img/backImg.png");
+  background-size: 100%;
+  opacity: 0.4;
+}
+
+.endStr{
+  text-align: center;
+  margin-top: 40%;
+  font-size: 50px;
+  color: #000;
+}
+
+.endCheck{
+  border-radius: 20px;
+  border : 1px solid #36b9cc;
+  background-color: #36b9cc;
+}
+
+.endCheck:active, .endCheck:hover {
+  color : #fff;
+}
+
+.comSub{
+  margin-top : 50px;
+  margin-bottom : 0px;
+}
+
+.chattingDiv{
+  width: 100%;
+  height: 30px;
+  margin-bottom: 30px;
 }
 
 .comment-submit{
@@ -6463,6 +6520,48 @@ button.bg-primary:focus {
   height: 30px;
   margin-bottom: 30px;
   text-align: center;
+}
+
+.check-submit{
+  display : block;
+  margin : 0 auto;
+  background-color: #36b9cc;
+  border : none;
+  color: #fff;
+  width: 70%;
+  height: 30px;
+  text-align: center;
+}
+
+.delete{
+  float: right;
+  width: 15px;
+}
+
+.updown {
+  margin-left: 30px;
+}
+
+.checkUser {
+  margin-right: 10px;
+}
+
+.myBox{
+  margin-top: 50px;
+}
+
+.myCard {
+  height: 100%;
+}
+
+.checkResult{
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+}
+
+#result-box{
+  margin-bottom: 60px;
 }
 
 .bg-secondary {
@@ -10916,6 +11015,12 @@ a:focus {
   .comment-btn{
     font-size: 10px;
   }
+
+  .comSub{
+    margin-top : 150px;
+    margin-bottom : 0px;
+  }
+
 }
 
 .bg-login-image {
