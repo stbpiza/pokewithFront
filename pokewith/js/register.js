@@ -1,31 +1,4 @@
-// jQuery AJAX 통신
-
-// $(document).ready(function () {
-//   $('#register-btn').click(function (e) {
-//     e.preventDefault();
-
-//     let data = { nickname1: $('#nickname1').val(), friendCode1: $('#friendCode1').val() };
-//     jsonData = JSON.stringify(data);
-//     console.log($('#friendCode1').val().length);
-
-//     $.ajax({
-//       type: 'post',
-//       url: '/newsignjson',
-//       data: jsonData,
-//       dataType: 'json',
-//       contentType: 'application/json',
-//       success: function (data) {
-//         console.log(data);
-//         alert('success');
-//       },
-//       error: function (jqXHR, textStatus, errorThrown) {
-//         alert(`error! \n ${textStatus} : ${errorThrown}`);
-//       },
-//     });
-//   });
-
-//   });
-
+//INITIALIZE VARIABLES
 const registerBtn = document.querySelector(".register-btn");
 const clearBtn = document.querySelector(".clear-btn");
 const errMsg = document.querySelector(".err-msg");
@@ -33,20 +6,21 @@ const errMsg = document.querySelector(".err-msg");
 const inputName = document.querySelector(".nickname1");
 const inputCode = document.querySelector(".friendCode1");
 
-// get 더미 데이터
+//DUMMY DATA FROM GET REQUEST
 const userInfoData = {
   userId: "1668589466621909",
   nickname1: "",
   friendCode1: "",
 };
 
-// post 더미 데이터
+//DUMMY DATA FOR POST REQUEST
 let userInfoInput = {
   userId: "1668589466621909",
   nickname1: "",
   friendCode1: "",
 };
 
+//BINDING CLEAR BUTTTON EVENT
 function clearInput(event) {
   event.preventDefault();
   inputName.value = "";
@@ -54,6 +28,7 @@ function clearInput(event) {
   errMsg.innerText = "";
 }
 
+//BINDING HANDLING REGISTER EVENT
 function handleRegister() {
   const sendName = inputName.value;
   const nameRgx = RegExp(/^[가-힣A-Za-z0-9_\-]{5,20}$/);
@@ -74,11 +49,11 @@ function handleRegister() {
     }
   }
 }
-// AJAX
+// ADDITIONAL USER INFORMATION FOR POST REQUEST
 
 function registerAPI() {
   const httpReq = new XMLHttpRequest();
-  const url = "/";
+  const url = "http://192.168.1.136:8888/signup";
 
   httpReq.open("POST", url, true);
   console.log("good");
@@ -101,5 +76,6 @@ function registerAPI() {
   httpReq.send(JSON.stringify(userInfoInput));
 }
 
+//BINDING SINGLE EVENT LISTENER FOR EACH BUTTONS
 registerBtn.addEventListener("click", handleRegister);
 clearBtn.addEventListener("click", clearInput);
