@@ -447,7 +447,6 @@ function commitComment(num) {
   }
 
   const commitData = {
-    userId : '1283902841946955',
     p_id : num,
     checkNum : sum
   }
