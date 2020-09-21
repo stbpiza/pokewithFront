@@ -1,19 +1,20 @@
-// userInfo 더미 데이터
+//INITIALIZE DUMMY DATA FOR TEST REQEST
 
-const userInfoData = {
-  nickname1: "2eebug",
-  friendCode1: "617654262236",
-  nickname2: "minos15",
-  friendCode2: "315211115555",
-  nickname3: "lee7",
-  friendCode3: "413525469663",
-  nickname4: "",
-  friendCode4: "",
-  nickname5: "",
-  friendCode5: "",
-};
+// const userInfoData = {
+//   nickname1: "2eebug",
+//   friendCode1: "617654262236",
+//   nickname2: "minos15",
+//   friendCode2: "315211115555",
+//   nickname3: "lee7",
+//   friendCode3: "413525469663",
+//   nickname4: "",
+//   friendCode4: "",
+//   nickname5: "",
+//   friendCode5: "",
+// };
 
 let userInfoInput = {
+  userId: "3268944226555507",
   nickname1: "",
   friendCode1: "",
   nickname2: "",
@@ -30,6 +31,7 @@ const sendBtn = document.querySelector(".send-btn");
 const userInfo = document.querySelector(".user-info");
 const profile = document.querySelector(".profile-name");
 
+//BINDING SAVE BUTTON CLICK EVENT
 function saveUserInfo() {
   const pointer = this.parentNode.previousSibling;
   const name = document.querySelectorAll(".nickName");
@@ -60,10 +62,10 @@ function saveUserInfo() {
   userInfoInput.friendCode4 = code[3].innerText;
   userInfoInput.friendCode5 = code[4].innerText;
 
-  console.log(userInfoData);
-  console.log(userInfoInput);
+  console.log("UPDATE DATA: ", userInfoInput);
 }
 
+//BINDING EDIT BUTTON CLICK EVENT
 function editUserInfo() {
   const pointer = this.parentNode.previousSibling;
   for (let i = 0; i < pointer.childNodes.length; i++) {
@@ -75,7 +77,11 @@ function editUserInfo() {
   }
 }
 
-function paintUserInfo() {
+//DISPLAY USER INFORMATION FROM GET REQUEST
+function paintUserInfo(data) {
+  let userInfoGet = data;
+  console.log("PAINT DATA:", userInfoGet);
+
   for (let i = 1; i < 6; i++) {
     const newList = document.createElement("li");
     newList.setAttribute("class", "d-flex justify-content-around align-items-center user-info-list");
@@ -136,63 +142,43 @@ function paintUserInfo() {
   let inputNickName = document.querySelectorAll(".input-nickName");
   let inputFriendCode = document.querySelectorAll(".input-friendCode");
 
-  name[0].innerText = userInfoData.nickname1;
-  name[1].innerText = userInfoData.nickname2;
-  name[2].innerText = userInfoData.nickname3;
-  name[3].innerText = userInfoData.nickname4;
-  name[4].innerText = userInfoData.nickname5;
+  name[0].innerText = userInfoGet.nickname1;
+  name[1].innerText = userInfoGet.nickname2;
+  name[2].innerText = userInfoGet.nickname3;
+  name[3].innerText = userInfoGet.nickname4;
+  name[4].innerText = userInfoGet.nickname5;
 
-  code[0].innerText = userInfoData.friendCode1;
-  code[1].innerText = userInfoData.friendCode2;
-  code[2].innerText = userInfoData.friendCode3;
-  code[3].innerText = userInfoData.friendCode4;
-  code[4].innerText = userInfoData.friendCode5;
+  code[0].innerText = userInfoGet.friendCode1;
+  code[1].innerText = userInfoGet.friendCode2;
+  code[2].innerText = userInfoGet.friendCode3;
+  code[3].innerText = userInfoGet.friendCode4;
+  code[4].innerText = userInfoGet.friendCode5;
 
-  inputNickName[0].value = userInfoData.nickname1;
-  inputNickName[1].value = userInfoData.nickname2;
-  inputNickName[2].value = userInfoData.nickname3;
-  inputNickName[3].value = userInfoData.nickname4;
-  inputNickName[4].value = userInfoData.nickname5;
+  inputNickName[0].value = userInfoGet.nickname1;
+  inputNickName[1].value = userInfoGet.nickname2;
+  inputNickName[2].value = userInfoGet.nickname3;
+  inputNickName[3].value = userInfoGet.nickname4;
+  inputNickName[4].value = userInfoGet.nickname5;
 
-  inputFriendCode[0].value = userInfoData.friendCode1;
-  inputFriendCode[1].value = userInfoData.friendCode2;
-  inputFriendCode[2].value = userInfoData.friendCode3;
-  inputFriendCode[3].value = userInfoData.friendCode4;
-  inputFriendCode[4].value = userInfoData.friendCode5;
+  inputFriendCode[0].value = userInfoGet.friendCode1;
+  inputFriendCode[1].value = userInfoGet.friendCode2;
+  inputFriendCode[2].value = userInfoGet.friendCode3;
+  inputFriendCode[3].value = userInfoGet.friendCode4;
+  inputFriendCode[4].value = userInfoGet.friendCode5;
 }
 
-function loadUserInfo() {
-  profile.innerText = userInfoData.nickname1;
-  paintUserInfo();
+// LOAD DATA FROM GET REQUEST
+function loadUserInfo(data) {
+  const userInfoGet = data;
+  console.log("LOAD DATA: ", userInfoGet);
+  profile.innerText = userInfoGet.nickname1;
+  paintUserInfo(data);
 }
 
-sendBtn.addEventListener("click", sendAjax);
+//BINDING SAVE BUTTON EVENT
+sendBtn.addEventListener("click", postUserInfo);
 
-// function sendAjax() {
-//   const httpReq = new XMLHttpRequest();
-//   const url = "http://192.168.1.136:8888/mypage";
-
-//   httpReq.open("POST", url, true);
-//   console.log("good");
-
-//   httpReq.setRequestHeader("Access-Control-Allow-Headers", "*");
-//   httpReq.setRequestHeader("Content-type", "application/json");
-//   httpReq.setRequestHeader("Access-Control-Allow-Origin", "*");
-//   console.log("ok");
-
-//   httpReq.onreadystatechange = function () {
-//     console.log("test1");
-//     console.log(httpReq.status);
-//     if (httpReq.readyState === 4 && httpReq.status === "success") {
-//       console.log("test2");
-//       alert(httpReq.responseText);
-//     }
-//   };
-
-//   console.log("DATA : " + JSON.stringify(userInfoInput));
-//   httpReq.send(JSON.stringify(userInfoInput));
-// }
-
+//AJAX REQUEST
 function sendAjax(url, method, data, callback) {
   const httpReq = new XMLHttpRequest();
   httpReq.open(method, url, true);
@@ -221,15 +207,27 @@ function sendAjax(url, method, data, callback) {
   }
 }
 
+//GET USER INFORMATION
 function getUserInfo() {
-  const url = "http://192.168.1.136:8888/mypage";
+  const url = "http://192.168.1.136:8888/mypage/3268944226555507";
 
   sendAjax(url, "GET", null, function (res) {
-    // console.log(res.response);
     let result = JSON.parse(res.response);
-    console.log(result);
+    console.log("GET DATA: ", result);
+    loadUserInfo(result);
   });
 }
 
-window.addEventListener("load", loadUserInfo);
-// window.addEventListener("load", getUserInfo);
+//POST USER INFORMATION
+function postUserInfo() {
+  let inputData = userInfoInput;
+  let jsonData = JSON.stringify(inputData);
+  const url = "http://192.168.1.136:8888/mypage";
+
+  sendAjax(url, "POST", jsonData, function () {
+    console.log("POST DATA: ", jsonData);
+  });
+}
+
+// window.addEventListener("load", loadUserInfo);
+window.addEventListener("load", getUserInfo);
