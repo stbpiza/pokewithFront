@@ -14,7 +14,6 @@
 // };
 
 let userInfoInput = {
-  userId: "3268944226555507",
   nickname1: "",
   friendCode1: "",
   nickname2: "",
@@ -37,6 +36,11 @@ function saveUserInfo() {
   const name = document.querySelectorAll(".nickName");
   const code = document.querySelectorAll(".friendCode");
 
+  const errMsg = document.querySelector(".err-msg");
+
+  const nameRgx = RegExp(/^[가-힣A-Za-z0-9_\-]{5,20}$/);
+  const codeRgx = RegExp(/^[0-9_\-]{12}$/);
+
   for (let i = 0; i < pointer.childNodes.length; i++) {
     if (i % 2 == 1) {
       pointer.childNodes[i].classList.add("d-none");
@@ -45,11 +49,39 @@ function saveUserInfo() {
     }
   }
 
-  for (let j = 0; j < pointer.childNodes.length; j++) {
-    if (j % 2 == 1) {
-      pointer.childNodes[j - 1].innerText = pointer.childNodes[j].value;
+  // for (let j = 0; j < pointer.childNodes.length; j++) {
+  //   if (j % 2 == 1) {
+  //     pointer.childNodes[j - 1].innerText = pointer.childNodes[j].value;
+  //   }
+  // }
+
+  //CHECK INPUT VALUES
+  for (let j = 0; j < 4; j++) {
+    if (j == 1) {
+      const chkName = nameRgx.test(pointer.childNodes[1].value);
+      if (chkName == false) {
+        pointer.childNodes[4].innerText = `check your nickname.`;
+        console.log("check your nickname.");
+        pointer.childNodes[1].value = pointer.childNodes[0].innerText;
+      } else {
+        pointer.childNodes[4].innerText = ``;
+        pointer.childNodes[0].innerText = pointer.childNodes[1].value;
+        console.log(`chkName`);
+      }
+    } else if (j == 3) {
+      const chkCode = codeRgx.test(pointer.childNodes[3].value);
+      console.log(chkCode);
+      if (chkCode == false) {
+        console.log("check your friendcode");
+        pointer.childNodes[4].innerText = `check your friendcode.`;
+        pointer.childNodes[3].value = pointer.childNodes[2].innerText;
+      } else {
+        pointer.childNodes[4].innerText = ``;
+        pointer.childNodes[2].innerText = pointer.childNodes[3].value;
+      }
     }
   }
+
   userInfoInput.nickname1 = name[0].innerText;
   userInfoInput.nickname2 = name[1].innerText;
   userInfoInput.nickname3 = name[2].innerText;
@@ -64,7 +96,6 @@ function saveUserInfo() {
 
   console.log("UPDATE DATA: ", userInfoInput);
 }
-
 //BINDING EDIT BUTTON CLICK EVENT
 function editUserInfo() {
   const pointer = this.parentNode.previousSibling;
@@ -83,6 +114,7 @@ function paintUserInfo(data) {
   console.log("PAINT DATA:", userInfoGet);
 
   for (let i = 1; i < 6; i++) {
+    const errDiv = document.createElement("div");
     const newList = document.createElement("li");
     newList.setAttribute("class", "d-flex justify-content-around align-items-center user-info-list");
     const numberSpan = document.createElement("span");
@@ -108,12 +140,16 @@ function paintUserInfo(data) {
     codeSpan.setAttribute(`id`, `friendCode${i}`);
     codeSpan.setAttribute(`class`, `friendCode form-control rounded-pill border-0 user-info`);
     codeInput.setAttribute(`class`, `input-friendCode d-none form-control rounded-pill user-info`);
+    codeInput.setAttribute(`maxlength`, `12`);
     codeInput.setAttribute(`id`, `FRIENDCODE${i}`);
+
+    errDiv.setAttribute(`class`, `err-msg`);
 
     infoDiv.appendChild(nameSpan);
     infoDiv.appendChild(nameInput);
     infoDiv.appendChild(codeSpan);
     infoDiv.appendChild(codeInput);
+    infoDiv.appendChild(errDiv);
     infoDiv.setAttribute(`class`, `d-flex flex-column justify-content-between align-items-center`);
 
     btnDiv.appendChild(editBtn);
@@ -209,7 +245,7 @@ function sendAjax(url, method, data, callback) {
 
 //GET USER INFORMATION
 function getUserInfo() {
-  const url = "http://192.168.1.136:8888/mypage/3268944226555507";
+  const url = "http://192.168.1.136:8888/mypage/1283902841946955";
 
   sendAjax(url, "GET", null, function (res) {
     let result = JSON.parse(res.response);
