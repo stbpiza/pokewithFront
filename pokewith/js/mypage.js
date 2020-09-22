@@ -29,6 +29,8 @@ let userInfoInput = {
 const sendBtn = document.querySelector(".send-btn");
 const userInfo = document.querySelector(".user-info");
 const profile = document.querySelector(".profile-name");
+const errMsg = document.querySelector(".err-msg");
+const collapseItem = document.querySelectorAll(".collapse-item");
 
 //BINDING SAVE BUTTON CLICK EVENT
 function saveUserInfo() {
@@ -36,9 +38,9 @@ function saveUserInfo() {
   const name = document.querySelectorAll(".nickName");
   const code = document.querySelectorAll(".friendCode");
 
-  const errMsg = document.querySelector(".err-msg");
+  console.log(errMsg);
 
-  const nameRgx = RegExp(/^[가-힣A-Za-z0-9_\-]{5,20}$/);
+  const nameRgx = RegExp(/^[A-Za-z0-9_\-]{5,20}$/);
   const codeRgx = RegExp(/^[0-9_\-]{12}$/);
 
   for (let i = 0; i < pointer.childNodes.length; i++) {
@@ -49,36 +51,22 @@ function saveUserInfo() {
     }
   }
 
-  // for (let j = 0; j < pointer.childNodes.length; j++) {
-  //   if (j % 2 == 1) {
-  //     pointer.childNodes[j - 1].innerText = pointer.childNodes[j].value;
-  //   }
-  // }
-
-  //CHECK INPUT VALUES
-  for (let j = 0; j < 4; j++) {
-    if (j == 1) {
-      const chkName = nameRgx.test(pointer.childNodes[1].value);
-      if (chkName == false) {
-        pointer.childNodes[4].innerText = `check your nickname.`;
-        console.log("check your nickname.");
-        pointer.childNodes[1].value = pointer.childNodes[0].innerText;
-      } else {
-        pointer.childNodes[4].innerText = ``;
-        pointer.childNodes[0].innerText = pointer.childNodes[1].value;
-        console.log(`chkName`);
-      }
-    } else if (j == 3) {
-      const chkCode = codeRgx.test(pointer.childNodes[3].value);
-      console.log(chkCode);
-      if (chkCode == false) {
-        console.log("check your friendcode");
-        pointer.childNodes[4].innerText = `check your friendcode.`;
-        pointer.childNodes[3].value = pointer.childNodes[2].innerText;
-      } else {
-        pointer.childNodes[4].innerText = ``;
-        pointer.childNodes[2].innerText = pointer.childNodes[3].value;
-      }
+  //CHECK INPUT VALUES WITH REGULAR EXPRESSTION
+  const selected = pointer.childNodes;
+  const chkName = nameRgx.test(selected[1].value);
+  if (!chkName) {
+    errMsg.innerText = `Check your Nickname`;
+    selected[1].value = selected[0].innerText;
+  } else {
+    errMsg.innerText = "";
+    selected[0].innerText = selected[1].value;
+    const chkCode = codeRgx.test(selected[3].value);
+    if (!chkCode) {
+      errMsg.innerText = `Check your Friendcode`;
+      selected[3].value = selected[2].innerText;
+    } else {
+      errMsg.innerText = "";
+      selected[2].innerText = selected[3].value;
     }
   }
 
@@ -114,7 +102,8 @@ function paintUserInfo(data) {
   console.log("PAINT DATA:", userInfoGet);
 
   for (let i = 1; i < 6; i++) {
-    const errDiv = document.createElement("div");
+    const nameErrDiv = document.createElement("div");
+    const codeErrDiv = document.createElement("div");
     const newList = document.createElement("li");
     newList.setAttribute("class", "d-flex justify-content-around align-items-center user-info-list");
     const numberSpan = document.createElement("span");
@@ -143,13 +132,10 @@ function paintUserInfo(data) {
     codeInput.setAttribute(`maxlength`, `12`);
     codeInput.setAttribute(`id`, `FRIENDCODE${i}`);
 
-    errDiv.setAttribute(`class`, `err-msg`);
-
     infoDiv.appendChild(nameSpan);
     infoDiv.appendChild(nameInput);
     infoDiv.appendChild(codeSpan);
     infoDiv.appendChild(codeInput);
-    infoDiv.appendChild(errDiv);
     infoDiv.setAttribute(`class`, `d-flex flex-column justify-content-between align-items-center`);
 
     btnDiv.appendChild(editBtn);
@@ -201,6 +187,13 @@ function paintUserInfo(data) {
   inputFriendCode[2].value = userInfoGet.friendCode3;
   inputFriendCode[3].value = userInfoGet.friendCode4;
   inputFriendCode[4].value = userInfoGet.friendCode5;
+
+  //PAINT SIDEBAR USER INFORMATION
+  collapseItem[0].innerText = userInfoGet.nickname1;
+  collapseItem[1].innerText = userInfoGet.nickname2;
+  collapseItem[2].innerText = userInfoGet.nickname3;
+  collapseItem[3].innerText = userInfoGet.nickname4;
+  collapseItem[4].innerText = userInfoGet.nickname5;
 }
 
 // LOAD DATA FROM GET REQUEST
@@ -208,6 +201,7 @@ function loadUserInfo(data) {
   const userInfoGet = data;
   console.log("LOAD DATA: ", userInfoGet);
   profile.innerText = userInfoGet.nickname1;
+  profile.setAttribute("style", "margin-top: 10px");
   paintUserInfo(data);
 }
 
@@ -245,7 +239,7 @@ function sendAjax(url, method, data, callback) {
 
 //GET USER INFORMATION
 function getUserInfo() {
-  const url = "http://192.168.1.136:8888/mypage/1283902841946955";
+  const url = "http://192.168.1.136:8888/mypage/1649416911892763";
 
   sendAjax(url, "GET", null, function (res) {
     let result = JSON.parse(res.response);
