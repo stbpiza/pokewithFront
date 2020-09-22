@@ -6441,7 +6441,7 @@ input:focus, button:focus{
   border : 4px solid yellowgreen;
 }
 
-.hide-link:active, .hide-link:hover {
+.hide-link:active, .hide-link:hover, .delete:active, .delete:hover {
   text-decoration: none;
   color: #36b9cc;
 } 
@@ -6471,6 +6471,12 @@ input:focus, button:focus{
 
 .ending {
   background-image: URL( "/img/backImg.png");
+  background-size: 100%;
+  opacity: 0.6;
+}
+
+.raiding{
+  background-image: URL( "/img/backImg02.png");
   background-size: 100%;
   opacity: 0.6;
 }
@@ -6531,11 +6537,6 @@ input:focus, button:focus{
   width: 70%;
   height: 30px;
   text-align: center;
-}
-
-.delete{
-  float: right;
-  width: 15px;
 }
 
 .updown {
@@ -6804,6 +6805,33 @@ button.bg-dark:focus {
   display: inline-flex !important;
 }
 
+@media(min-width: 360px){
+  .ending {
+    background-image: URL( "/img/backImg360.png");
+    background-size: cover;
+  }
+
+  .raiding{
+    background-image: URL( "/img/backImg02_360.png");
+    background-size: 100%;
+    opacity: 0.6;
+  }
+
+  .remote1{
+    width:50px; 
+    margin-right:10px;
+  }
+  .remote2{
+    width:40px; 
+    margin-right:10px;
+  }
+
+  .comSub {
+    margin-top : 50px;
+  }
+}
+
+
 @media (min-width: 576px) {
   .d-sm-none {
     display: none !important;
@@ -6831,6 +6859,20 @@ button.bg-dark:focus {
   }
   .d-sm-inline-flex {
     display: inline-flex !important;
+  }
+
+  .ending {
+    background-image: URL( "/img/backImg500.png");
+    background-size: cover;
+  }
+
+  .raiding {
+    background-image: URL( "/img/backImg02_500.png");
+    background-size: cover;
+  }
+
+  .comSub {
+    margin-top : 50px;
   }
 }
 
@@ -6862,6 +6904,20 @@ button.bg-dark:focus {
   .d-md-inline-flex {
     display: inline-flex !important;
   }
+
+  .ending {
+    background-image: URL( "/img/backImg500.png");
+    background-size: cover;
+  }
+
+  .raiding {
+    background-image: URL( "/img/backImg02_768.png");
+    background-size: cover;
+  }
+
+  .comSub {
+    margin-top : 50px;
+  }
 }
 
 @media (min-width: 992px) {
@@ -6892,6 +6948,17 @@ button.bg-dark:focus {
   .d-lg-inline-flex {
     display: inline-flex !important;
   }
+
+  .ending {
+    background-image: URL( "/img/backImg990.png");
+    background-size: cover;
+  }
+
+  .raiding {
+    background-image: URL( "/img/backImg02_990.png");
+    background-size: cover;
+  }
+  
 }
 
 @media (min-width: 1200px) {
@@ -11017,7 +11084,7 @@ a:focus {
   }
 
   .comSub{
-    margin-top : 150px;
+    margin-top : 50px;
     margin-bottom : 0px;
   }
 
