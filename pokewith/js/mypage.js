@@ -1,4 +1,4 @@
-//INITIALIZE DUMMY DATA FOR TEST REQEST
+//INITIALIZE DUMMY DATA FOR LOCAL TEST
 
 // const userInfoData = {
 //   nickname1: "2eebug",
@@ -238,15 +238,15 @@ function sendAjax(url, method, data, callback) {
 }
 
 //GET USER INFORMATION
-function getUserInfo() {
-  const url = "http://192.168.1.136:8888/mypage/1649416911892763";
+// function getUserInfo() {
+//   const url = "http://192.168.1.136:8888/mypage/1649416911892763";
 
-  sendAjax(url, "GET", null, function (res) {
-    let result = JSON.parse(res.response);
-    console.log("GET DATA: ", result);
-    loadUserInfo(result);
-  });
-}
+//   sendAjax(url, "GET", null, function (res) {
+//     let result = JSON.parse(res.response);
+//     console.log("GET DATA: ", result);
+//     loadUserInfo(result);
+//   });
+// }
 
 //POST USER INFORMATION
 function postUserInfo() {
