@@ -153,15 +153,21 @@ function sendAjax(url, method, data, callback){
 
 }
 
-//allPostHtml() : 전체 게시글 출력 함수
+//allPostHtml() : 전체/필터 게시글 출력 함수
 function allPostHtml(requiredData, n){
 
   let num = requiredData[n].p_id;
   console.log(num);
     
     let startDiv = document.createElement("div");
-    startDiv.setAttribute("class", "card shadow mb-4");
     startDiv.setAttribute("id", "result-box");
+    startDiv.setAttribute("class", "card shadow mb-4");
+    
+    if(requiredData[n].p_end == "2"){
+      startDiv.setAttribute("class", "ending card shadow mb-4");
+    } else if (requiredData[n].p_end == "1") {
+      startDiv.setAttribute("class", "raiding card shadow mb-4");
+    }
 
     let nickDiv = document.createElement("div");
     nickDiv.setAttribute("class", "card-header py-3 d-flex flex-row align-items-center justify-content-between");
@@ -169,8 +175,7 @@ function allPostHtml(requiredData, n){
     let nickName = '';
     nickName += '<p class="m-0 text-gray"><b>'+requiredData[n].nickname1
                 + '</b><i class="fa fa-thumbs-up updown" aria-hidden="true" style="font-size:10px"></i>' + requiredData[n].u_like
-                + ' <i class="fa fa-thumbs-down" aria-hidden="true" style="font-size:10px"></i>' + requiredData[n].u_hate
-                + '</p> <div><i id="delete'+num+'" onclick="deletePost('+num+')" class="fas fa-times"></i>'
+                + ' <i class="fa fa-thumbs-down" aria-hidden="true" style="font-size:10px"></i>' + requiredData[n].u_hate + '</p>'
     nickDiv.innerHTML = nickName;
 
     startDiv.appendChild(nickDiv);
@@ -198,6 +203,8 @@ function allPostHtml(requiredData, n){
     cardDiv.innerHTML += '<p> Premium Pass : <img src="img/3_premium.png" style="width:60px"> / <img src="img/2_premium.png" style="width:50px">' + requiredData[n].nPass+'</p>';
     cardDiv.innerHTML += '<p> Remote Pass : <img src="img/1_remote.png" style="width:60px"> ' + requiredData[n].rPass + '</p>';
 
+
+    if(requiredData[n].p_end =="0"){
     let commentDiv3 = document.createElement('div');
     commentDiv3.setAttribute('class', 'commentBox');
     commentDiv3.setAttribute('id', 'commentBox');
@@ -205,7 +212,7 @@ function allPostHtml(requiredData, n){
     let commentA = document.createElement('button');
     commentA.setAttribute('id', 'comment'+num)
     commentA.setAttribute('class', 'hide-link');
-    commentA.setAttribute('onclick', 'allCommentView('+num+')');
+    commentA.setAttribute('onclick', 'allCommentAjax('+num+')');
     
     
     let commentText = document.createTextNode('comment');
@@ -223,44 +230,93 @@ function allPostHtml(requiredData, n){
     
     commentDiv3.appendChild(divide);
     cardDiv.appendChild(commentDiv3);
+    }
     
     let postbox = document.querySelector("#post-box");
     postbox.appendChild(startDiv);
-    
-    
+
 
 }
 
-//allPost() : post 전체 보기 함수
-function allPost() {
-  var url = 'http://192.168.1.136:8888/index';
-  
-  sendAjax(url, 'GET', null, function(res){
-    console.log(res.response);
-    var result = JSON.parse(res.response);
-    for(let i = 0; i < result.length; i++){
-      allPostHtml(result, i);
-    }
-  });
+//allPost() : 모든 포스트/필터된 포스트를 출력하기 전 거치는 ajax
+function allPostAjax(selectOption) {
+  if(selectOption == 'three'){
+    removeAllPost();
+    
+    var url = 'http://192.168.1.136:8888/index/three';
 
-  // for(let i = 0; i < postData.length; i++){
-  //   allPostHtml(postData, i);
-  // }
+    sendAjax(url, 'GET', null, function (res) {
+      console.log(res.response);
+      var result = JSON.parse(res.response);
+      for (let i = 0; i < result.length; i++) {
+        allPostHtml(result, i);
+      }
+    });
+  }else if(selectOption == 'five'){
+    removeAllPost();
+    
+    var url = 'http://192.168.1.136:8888/index/five';
+
+    sendAjax(url, 'GET', null, function (res) {
+      console.log(res.response);
+      var result = JSON.parse(res.response);
+      for (let i = 0; i < result.length; i++) {
+        allPostHtml(result, i);
+      }
+    });
+  }else if(selectOption == 'mega'){
+    removeAllPost();
+    
+    var url = 'http://192.168.1.136:8888/index/mega';
+
+    sendAjax(url, 'GET', null, function (res) {
+      console.log(res.response);
+      var result = JSON.parse(res.response);
+      for (let i = 0; i < result.length; i++) {
+        allPostHtml(result, i);
+      }
+    });
+  }else{
+    removeAllPost();
+    var url = 'http://192.168.1.136:8888/index';
+  
+    sendAjax(url, 'GET', null, function (res) {
+      console.log(res.response);
+      var result = JSON.parse(res.response);
+      for (let i = 0; i < result.length; i++) {
+        allPostHtml(result, i);
+      }
+    });
+  }
+
+  //if(selectOption == 'total'){
+  //  for(let i = 0; i < postData.length; i++){
+  //    allPostHtml(postData, i);
+  //  }
+  //}
 };
+
+function removeAllPost(){
+  let card = document.querySelectorAll(".card");
+  for(let i = 0; i < card.length; i++){
+    card[i].style.display = 'none';
+  }
+}
 
 //윈도우가 로드될 때 allPost()를 실행시키기 위한 함수
 if (window.addEventListener)
-        window.addEventListener("load", allPost, false);
+        window.addEventListener("load", allPostAjax, false);
 else if (window.attachEvent)
-      window.attachEvent("onload", allPost);
-else window.onload = allPost;
+      window.attachEvent("onload", allPostAjax);
+else window.onload = allPostAjax;
 
 //post 버튼에 onClick 함수 binding
 let postBtn = document.getElementById('post-btn');
 postBtn.addEventListener('click',createPost);
 
 
-//createPost() : 새로운 post 생성 함수
+//createPost() : 새로운 post 탬플릿 생성 함수
+/* 아직 위에 sticky하게 붙이는 법은 연구해봐야 한다. */
 function createPost(){
 
   let newDiv = document.createElement("div");
@@ -312,6 +368,7 @@ function createPost(){
 }
 
 //addPost() : 기존 게시글에 새 게시글의 데이터를 더하는 함수
+/* 포스트를 생성하게 되면 바로 mypost 화면으로 리다이렉트 된다. */
 function addPost(){
   alert("포스트가 성공적으로 등록되었습니다.");
   const addData = {
@@ -363,7 +420,7 @@ function allComment(resultData, num) {
 
       let commentText = '';
       commentText += '<div> <p class="commentP">' + resultData[i].nickname1;
-      commentText += '</p> <div style="float: right; width:80%;"><img src="img/1_remote.png" style="width:60px; margin-right:20px">' + resultData[i].checkNum.length + "</div></div>";
+      commentText += '</p> <div style="float: right; width:60%;"><img src="img/1_remote.png" style="width:60px; margin-right:20px">' + resultData[i].checkNum.length + "</div></div>";
       commentW.innerHTML = commentText;
 
       startDiv.appendChild(commentW);
@@ -404,8 +461,9 @@ function allComment(resultData, num) {
 
 }
 
-function allCommentView(num) {
-  var url = 'http://192.168.1.136:8888/index/comment/'+num;
+//allCommentView() : 특정 포스트의 모든 댓글을 출력하기 전 거치는 ajax
+function allCommentAjax(num) {
+  var url = 'http://192.168.1.136:8888/comment/'+num;
 
   const postId = num;
   
@@ -432,6 +490,7 @@ function hideComment(num) {
 }
 
 //commitComment() : 특정 포스트에 댓글 생성
+/* 댓글을 생성하게 되면 바로 mypost 화면으로 리다이렉트 된다. */
 function commitComment(num) {
   
   var check_count = document.getElementsByName("nickname"+num).length;
@@ -447,85 +506,77 @@ function commitComment(num) {
   }
 
   const commitData = {
+    userId : '1283902841946955',
     p_id : num,
     checkNum : sum
   }
 
   const strObject = JSON.stringify(commitData);
 
-  var url = 'http://192.168.1.136:8888/index/comment';
+  var url = 'http://192.168.1.136:8888/comment';
   sendAjax(url, 'POST', strObject);
 
   alert("댓글이 성공적으로 등록되었습니다.");
 }
 
-function hideCommentBox(num) {
-    var vomit = document.querySelector('.comment-box'+num);
-    
-    if(vomit.style.display == 'none'){
-        vomit.style.display = 'block';
-    }else {
-        vomit.style.display = 'none';
-    }
+//makeFilteringButton() : 메인 페이지에 filtering할 select 버튼 생성
+function makeFilteringButton(){
+  let filterBox = document.querySelector(".filter");
+
+  let select = document.createElement("select");
+  select.setAttribute("id", "filterSelect");
+  select.setAttribute("onchange", "filterOptionCheck()");
+  filterBox.appendChild(select);
+
+  let selectTotal = document.createElement("option");
+  selectTotal.setAttribute("value", "total");
+  let selectTotalText = document.createTextNode("total");
+  selectTotal.appendChild(selectTotalText);
+
+  let selectOne = document.createElement("option");
+  selectOne.setAttribute("value", "three");
+  let selectOneText = document.createTextNode("1~3");
+  selectOne.appendChild(selectOneText);
+
+  let selectTwo = document.createElement("option");
+  selectTwo.setAttribute("value", "five");
+  let selectTwoText = document.createTextNode("5");
+  selectTwo.appendChild(selectTwoText);
+
+  let selectThree = document.createElement("option");
+  selectThree.setAttribute("value", "mega");
+  let selectThreeText = document.createTextNode("mega");
+  selectThree.appendChild(selectThreeText);
+
+  document.getElementById("filterSelect").appendChild(selectTotal);
+  document.getElementById("filterSelect").appendChild(selectOne);
+  document.getElementById("filterSelect").appendChild(selectTwo);
+  document.getElementById("filterSelect").appendChild(selectThree);
 }
 
-function hover(number) {
-  var deleteImg = document.querySelector('#delete'+number);
-  
-  deleteImg.setAttribute('src', "img/delete-hover.png"); 
-  deleteImg.setAttribute('id', "delete" + number);
-  deleteImg.setAttribute('class', "delete");
-  deleteImg.setAttribute('onmouseover', 'hover('+number+')');
-  deleteImg.setAttribute('onmouseout', 'normalImg('+number+')');
+//filterOptionCheck() : 필터링할 value 대로 ajax를 걸어주는 함수
+function filterOptionCheck(){
+  var selectOption = document.getElementById("filterSelect").value;
+  if(selectOption === 'total'){
+    alert("hi total");
+    return allPostAjax(selectOption);
+  }else if(selectOption === 'three'){
+    alert("hi three");
+    return allPostAjax(selectOption);
+  }else if(selectOption === 'five'){
+    alert("hi five");
+    return allPostAjax(selectOption);
+  }else{
+    alert("hi mega");
+    return allPostAjax(selectOption);
+  }
 }
 
-function normalImg(number) {
-  var deleteImg = document.querySelector('#delete'+number);
-  
-  deleteImg.setAttribute('src', "img/delete-icon.png"); 
-  deleteImg.setAttribute('id', "delete" + number);
-  deleteImg.setAttribute('class', "delete");
-  deleteImg.setAttribute('onmouseover', 'hover('+number+')');
-  deleteImg.setAttribute('onmouseout', 'normalImg('+number+')');
-}
+//윈도우가 로드될 때 makeFilteringButton()를 실행시키기 위한 함수
+if (window.addEventListener)
+        window.addEventListener("load", makeFilteringButton, false);
+else if (window.attachEvent)
+      window.attachEvent("onload", makeFilteringButton);
+else window.onload = makeFilteringButton;
 
-function hoverComment(num) {
-  var deleteImg = document.querySelector('#deleteComment'+num);
-  
-  deleteImg.setAttribute('src', "img/delete-hover.png"); 
-  deleteImg.setAttribute('id', "deleteComment" + num);
-  deleteImg.setAttribute('class', "delete");
-  deleteImg.setAttribute('onmouseover', 'hoverComment('+num+')');
-  deleteImg.setAttribute('onmouseout', 'normalComment('+num+')');
-}
-
-function normalComment(num) {
-  var deleteImg = document.querySelector('#deleteComment'+num);
-  
-  deleteImg.setAttribute('src', "img/delete-icon.png"); 
-  deleteImg.setAttribute('id', "deleteComment" + num);
-  deleteImg.setAttribute('class', "delete");
-  deleteImg.setAttribute('onmouseover', 'hoverComment('+num+')');
-  deleteImg.setAttribute('onmouseout', 'normalComment('+num+')');
-}
-
-function deletePost(num){
-  var cardBox = document.querySelector(".card"+num);
-  var postBox = document.querySelector("#post-box");
-  var cardBody = document.querySelector(".cardBody"+num);
-  var commentBox = document.querySelector(".comment-box"+num);
-  
-  cardBox.removeChild(cardBody);
-  cardBox.removeChild(commentBox);
-  postBox.removeChild(cardBox);
-}
-
-function deleteComment(num){
-  var commentBox = document.querySelector(".comment-box"+num);
-  var nickNameBox = document.querySelector("#nickName"+num);
-  var commentWrap = document.querySelector('.wrap' + num);
-  
-  commentBox.removeChild(nickNameBox);
-  commentWrap.style.display = 'block';
-}
 
