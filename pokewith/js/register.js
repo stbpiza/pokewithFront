@@ -31,12 +31,14 @@ function clearInput(event) {
 //BINDING HANDLING REGISTER EVENT
 function handleRegister() {
   const sendName = inputName.value;
+  // CHECK INPUT NICKNAME VALUE FROM REGULAR EXPRESSION
   const nameRgx = RegExp(/^[가-힣A-Za-z0-9_\-]{5,20}$/);
   const name = nameRgx.test(sendName);
   if (name == false) {
     errMsg.innerText = "Check your Nickname.";
   } else {
     const sendCode = inputCode.value;
+    // CHECK INPUT FRIENDCODE VALUE FROM REGULAR EXPRESSION
     const codeRgx = RegExp(/^[0-9_\-]{12}$/);
     const code = codeRgx.test(sendCode);
     if (code == false) {

@@ -99,11 +99,9 @@ function editUserInfo() {
 //DISPLAY USER INFORMATION FROM GET REQUEST
 function paintUserInfo(data) {
   let userInfoGet = data;
-  console.log("PAINT DATA:", userInfoGet);
+  // console.log("PAINT DATA:", userInfoGet);
 
   for (let i = 1; i < 6; i++) {
-    const nameErrDiv = document.createElement("div");
-    const codeErrDiv = document.createElement("div");
     const newList = document.createElement("li");
     newList.setAttribute("class", "d-flex justify-content-around align-items-center user-info-list");
     const numberSpan = document.createElement("span");
@@ -199,7 +197,7 @@ function paintUserInfo(data) {
 // LOAD DATA FROM GET REQUEST
 function loadUserInfo(data) {
   const userInfoGet = data;
-  console.log("LOAD DATA: ", userInfoGet);
+  // console.log("LOAD DATA: ", userInfoGet);
   profile.innerText = userInfoGet.nickname1;
   profile.setAttribute("style", "margin-top: 10px");
   paintUserInfo(data);
@@ -212,41 +210,41 @@ sendBtn.addEventListener("click", postUserInfo);
 function sendAjax(url, method, data, callback) {
   const httpReq = new XMLHttpRequest();
   httpReq.open(method, url, true);
-  console.log("good");
+  // console.log("good");
 
   httpReq.setRequestHeader("Access-Control-Allow-Headers", "*");
   httpReq.setRequestHeader("Content-type", "application/json");
   httpReq.setRequestHeader("Access-Control-Allow-Origin", "*");
-  console.log("ok");
+  // console.log("ok");
 
   httpReq.onreadystatechange = function () {
-    console.log("들어옴1");
+    // console.log("들어옴1");
     if (httpReq.readyState === 4 && httpReq.status === 200) {
-      console.log("들어옴2");
-      console.log(httpReq.responseText);
+      // console.log("들어옴2");
+      // console.log(httpReq.responseText);
       callback(httpReq);
     }
   };
 
   if (data != null) {
-    console.log("POST방식");
+    // console.log("POST방식");
     httpReq.send(data);
   } else {
-    console.log("GET방식");
+    // console.log("GET방식");
     httpReq.send();
   }
 }
 
 //GET USER INFORMATION
-// function getUserInfo() {
-//   const url = "http://192.168.1.136:8888/mypage/1649416911892763";
+function getUserInfo() {
+  const url = "http://192.168.1.136:8888/mypage/1649416911892763";
 
-//   sendAjax(url, "GET", null, function (res) {
-//     let result = JSON.parse(res.response);
-//     console.log("GET DATA: ", result);
-//     loadUserInfo(result);
-//   });
-// }
+  sendAjax(url, "GET", null, function (res) {
+    let result = JSON.parse(res.response);
+    // console.log("GET DATA: ", result);
+    loadUserInfo(result);
+  });
+}
 
 //POST USER INFORMATION
 function postUserInfo() {
