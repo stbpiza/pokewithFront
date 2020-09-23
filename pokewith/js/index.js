@@ -111,7 +111,6 @@ const commentData = [
   },
 ]
 
-
 //밖에서 ajax 코드를 빼고
 //response 값을 받아서
 /*
@@ -121,6 +120,7 @@ const result = response
 
 view.allPostHtml(result, n)
 */
+
 
 //sendAjax() : ajax 연결 (POST/GET)
 function sendAjax(url, method, data, callback){
@@ -153,90 +153,91 @@ function sendAjax(url, method, data, callback){
 
 }
 
+
 //allPostHtml() : 전체/필터 게시글 출력 함수
 function allPostHtml(requiredData, n){
 
   let num = requiredData[n].p_id;
   console.log(num);
     
-    let startDiv = document.createElement("div");
-    startDiv.setAttribute("id", "result-box");
-    startDiv.setAttribute("class", "card shadow mb-4");
-    
-    if(requiredData[n].p_end == "2"){
-      startDiv.setAttribute("class", "ending card shadow mb-4");
-    } else if (requiredData[n].p_end == "1") {
-      startDiv.setAttribute("class", "raiding card shadow mb-4");
-    }
+  let startDiv = document.createElement("div");
+  startDiv.setAttribute("id", "result-box");
+  startDiv.setAttribute("class", "card shadow mb-4");
+  
+  if(requiredData[n].p_end == "2"){
+    startDiv.setAttribute("class", "ending card shadow mb-4");
+  } else if (requiredData[n].p_end == "1") {
+    startDiv.setAttribute("class", "raiding card shadow mb-4");
+  }
 
-    let nickDiv = document.createElement("div");
-    nickDiv.setAttribute("class", "card-header py-3 d-flex flex-row align-items-center justify-content-between");
+  let nickDiv = document.createElement("div");
+  nickDiv.setAttribute("class", "card-header py-3 d-flex flex-row align-items-center justify-content-between");
 
-    let nickName = '';
-    nickName += '<p class="m-0 text-gray"><b>'+requiredData[n].nickname1
-                + '</b><i class="fa fa-thumbs-up updown" aria-hidden="true" style="font-size:10px"></i>' + requiredData[n].u_like
-                + ' <i class="fa fa-thumbs-down" aria-hidden="true" style="font-size:10px"></i>' + requiredData[n].u_hate + '</p>'
-    nickDiv.innerHTML = nickName;
+  let nickName = '';
+  nickName += '<p class="m-0 text-gray"><b>'+requiredData[n].nickname1
+              + '</b><i class="fa fa-thumbs-up updown" aria-hidden="true" style="font-size:10px"></i>' + requiredData[n].u_like
+              + ' <i class="fa fa-thumbs-down" aria-hidden="true" style="font-size:10px"></i>' + requiredData[n].u_hate + '</p>'
+  nickDiv.innerHTML = nickName;
 
-    startDiv.appendChild(nickDiv);
+  startDiv.appendChild(nickDiv);
 
-    let cardDiv = document.createElement("div");
-    cardDiv.setAttribute("class", "card-body cardBody"+num);
-    startDiv.appendChild(cardDiv);
+  let cardDiv = document.createElement("div");
+  cardDiv.setAttribute("class", "card-body cardBody"+num);
+  startDiv.appendChild(cardDiv);
 
-    if(requiredData[n].raidLevel == '1') {
-        str = "<img src = 'img/1.PNG' style='width:50px'>"
-    } else if(requiredData[n].raidLevel == '3') {
-        str = "<img src = 'img/3.PNG' style='width:50px'>"
-    } else if(requiredData[n].raidLevel == '5') {
-        str = "<img src = 'img/5.PNG' style='width:50px'>"
-    } else {
-        str = "<img src = 'img/mega.PNG' style='width:50px'>"
-    }
-    
-    cardDiv.innerHTML += '<input type="hidden" id="postId" name="postId" value="'+ requiredData[n].p_id +'">';
-    cardDiv.innerHTML += '<p> Pokemon : ' + requiredData[n].pokemon+'</p>';
-    cardDiv.innerHTML += '<p> Level of Raid : ' + str + '</p>';
-    cardDiv.innerHTML += '<p> Start Time of Raid : ' + requiredData[n].startTime+'</p>';
-    cardDiv.innerHTML += '<p> End Time of Raid : ' + requiredData[n].endTime+'</p>';
-    cardDiv.innerHTML += '<p> Required Player Level : ' + requiredData[n].minLevel+'</p>';
-    cardDiv.innerHTML += '<p> Premium Pass : <img src="img/3_premium.png" style="width:60px"> / <img src="img/2_premium.png" style="width:50px">' + requiredData[n].nPass+'</p>';
-    cardDiv.innerHTML += '<p> Remote Pass : <img src="img/1_remote.png" style="width:60px"> ' + requiredData[n].rPass + '</p>';
+  if(requiredData[n].raidLevel == '1') {
+      str = "<img src = 'img/1.PNG' style='width:50px'>"
+  } else if(requiredData[n].raidLevel == '3') {
+      str = "<img src = 'img/3.PNG' style='width:50px'>"
+  } else if(requiredData[n].raidLevel == '5') {
+      str = "<img src = 'img/5.PNG' style='width:50px'>"
+  } else {
+      str = "<img src = 'img/mega.PNG' style='width:50px'>"
+  }
+  
+  cardDiv.innerHTML += '<input type="hidden" id="postId" name="postId" value="'+ requiredData[n].p_id +'">';
+  cardDiv.innerHTML += '<p> Pokemon : ' + requiredData[n].pokemon+'</p>';
+  cardDiv.innerHTML += '<p> Level of Raid : ' + str + '</p>';
+  cardDiv.innerHTML += '<p> Start Time of Raid : ' + requiredData[n].startTime+'</p>';
+  cardDiv.innerHTML += '<p> End Time of Raid : ' + requiredData[n].endTime+'</p>';
+  cardDiv.innerHTML += '<p> Required Player Level : ' + requiredData[n].minLevel+'</p>';
+  cardDiv.innerHTML += '<p> Premium Pass : <img src="img/3_premium.png" style="width:60px"> / <img src="img/2_premium.png" style="width:50px">' + requiredData[n].nPass+'</p>';
+  cardDiv.innerHTML += '<p> Remote Pass : <img src="img/1_remote.png" style="width:60px"> ' + requiredData[n].rPass + '</p>';
 
 
-    if(requiredData[n].p_end =="0"){
-    let commentDiv3 = document.createElement('div');
-    commentDiv3.setAttribute('class', 'commentBox');
-    commentDiv3.setAttribute('id', 'commentBox');
+  if(requiredData[n].p_end =="0"){
+  let commentDiv3 = document.createElement('div');
+  commentDiv3.setAttribute('class', 'commentBox');
+  commentDiv3.setAttribute('id', 'commentBox');
 
-    let commentA = document.createElement('button');
-    commentA.setAttribute('id', 'comment'+num)
-    commentA.setAttribute('class', 'hide-link');
-    commentA.setAttribute('onclick', 'allCommentAjax('+num+')');
-    
-    
-    let commentText = document.createTextNode('comment');
-    commentA.appendChild(commentText);
+  let commentA = document.createElement('button');
+  commentA.setAttribute('id', 'comment'+num)
+  commentA.setAttribute('class', 'hide-link');
+  commentA.setAttribute('onclick', 'allCommentAjax('+num+')');
+  
+  
+  let commentText = document.createTextNode('comment');
+  commentA.appendChild(commentText);
 
-    let arrowDown = document.createElement("i");
-    arrowDown.setAttribute("class", "fa fa-sort-down");
+  let arrowDown = document.createElement("i");
+  arrowDown.setAttribute("class", "fa fa-sort-down");
 
-    commentA.appendChild(arrowDown);
+  commentA.appendChild(arrowDown);
 
-    commentDiv3.appendChild(commentA);
-    
-    let divide = document.createElement('div');
-    divide.setAttribute('class', 'dropdown-divider');
-    
-    commentDiv3.appendChild(divide);
-    cardDiv.appendChild(commentDiv3);
-    }
-    
-    let postbox = document.querySelector("#post-box");
-    postbox.appendChild(startDiv);
-
+  commentDiv3.appendChild(commentA);
+  
+  let divide = document.createElement('div');
+  divide.setAttribute('class', 'dropdown-divider');
+  
+  commentDiv3.appendChild(divide);
+  cardDiv.appendChild(commentDiv3);
+  }
+  
+  let postbox = document.querySelector("#post-box");
+  postbox.appendChild(startDiv);
 
 }
+
 
 //allPost() : 모든 포스트/필터된 포스트를 출력하기 전 거치는 ajax
 function allPostAjax(selectOption) {
@@ -296,12 +297,15 @@ function allPostAjax(selectOption) {
   //}
 };
 
+
+//removeAllPost() : 필터링할 때 기존에 있던 포스트들 다 숨기는 기능
 function removeAllPost(){
   let card = document.querySelectorAll(".card");
   for(let i = 0; i < card.length; i++){
     card[i].style.display = 'none';
   }
 }
+
 
 //윈도우가 로드될 때 allPost()를 실행시키기 위한 함수
 if (window.addEventListener)
@@ -310,62 +314,77 @@ else if (window.attachEvent)
       window.attachEvent("onload", allPostAjax);
 else window.onload = allPostAjax;
 
+
 //post 버튼에 onClick 함수 binding
 let postBtn = document.getElementById('post-btn');
 postBtn.addEventListener('click',createPost);
 
 
 //createPost() : 새로운 post 탬플릿 생성 함수
-/* 아직 위에 sticky하게 붙이는 법은 연구해봐야 한다. */
 function createPost(){
 
-  let newDiv = document.createElement("div");
-  newDiv.setAttribute("class", "card shadow mb-4 sticky-top");
-  newDiv.setAttribute("id", "cardBox");
+  let modalDiv = document.querySelector("#exampleModalCenter");
 
-  let newDiv2 = document.createElement("div");
-  newDiv2.setAttribute("class", "card-header py-3");
+  let modalBox = document.createElement("div");
+  modalBox.setAttribute("class", "modal-dialog modal-dialog-centered");
+  modalBox.setAttribute("role", "document");
+  modalDiv.appendChild(modalBox);
 
-  let str = "";
-  str += "<div class='card-body'>";
-  str += `
-    <p>pokemon : <input type='text' id='pokemon' name='pokemon' placeholder='pokemon of number'></p>
-    <p>Level of Raid : <select name="searchYear" id="raidLevel" name="raidLevel">
-                          <option value="1">1</option>
-                          <option value="3">3</option>
-                          <option value="5">5</option>
-                          <option value="mega">mega</option>
-                       </select>
-    <p>Start Time of Raid : <input type='time' id='startTime' name='startTime'></p>
-    <p>End Time of Raid : <input type='time' id='endTime' name='endTime'></p>
-    <p>Minimum Level of Raid : <input type='number' id='minLevel' name='minLevel' value='minLevel'></p>
-    <p>Premium Pass : <input type='number' id='nPass' name='nPass' value='nPass'></p>
-    <p>Remote Pass : <input type='number' id='rPass' name='rPass' value='rPass'></p>
-  `;
-  newDiv2.innerHTML = str;
+  let modalContent = document.createElement("div");
+  modalContent.setAttribute("class", "modal-content");
+  modalBox.appendChild(modalContent);
 
-  newDiv.appendChild(newDiv2);
+  let modalHeader = document.createElement("div");
+  modalHeader.setAttribute("class", "modal-header");
+  modalContent.appendChild( modalHeader);
 
-  let newDiv3 = document.createElement("div");
-  newDiv3.setAttribute("class", "d-flex justify-content-end");
-  
-  let submitBtn = document.createElement("button");
-  submitBtn.setAttribute("class", "border-0 btn-info comment-btn");
-  submitBtn.setAttribute("id", "submit-btn");
-  submitBtn.setAttribute("value", "submit");
+  modalHeaderStr = '';
+  modalHeaderStr += "<h5 class='modal-title id='exampleModalLongTitle'>New Post</h5>";
+  modalHeaderStr += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
+  modalHeader.innerHTML =  modalHeaderStr;
 
-  let submitText = document.createTextNode('submit');
-  submitBtn.appendChild(submitText);
+  let modalBody = document.createElement("div");
+  modalBody.setAttribute("class", "modal-body");
+  modalContent.appendChild(modalBody);
 
-  newDiv3.appendChild(submitBtn);
-  newDiv2.appendChild(newDiv3);
+  let modalBodyStr = '';
+  modalBodyStr += "<p>pokemon : <input type='text' id='pokemon' class='form-control' name='pokemon' placeholder='pokemon of number'></p>";
+  modalBodyStr += `<p>Level of Raid : <select name="searchYear" id="raidLevel" class='form-control' name="raidLevel">
+                      <option value="1">1</option>
+                      <option value="3">3</option>
+                      <option value="5">5</option>
+                      <option value="mega">mega</option>
+                      </select></p>`;
+  modalBodyStr += "<p>Start Time of Raid : <input type='time' id='startTime' class='form-control' name='startTime'></p>";
+  modalBodyStr += "<p>End Time of Raid : <input type='time' id='endTime' class='form-control' name='endTime'></p>";
+  modalBodyStr += "<p>Minimum Level of Raid : <input type='number' id='minLevel' class='form-control' name='minLevel' value='minLevel'></p>";
+  modalBodyStr += "<p>Premium Pass : <input type='number' id='nPass' class='form-control' name='nPass' value='nPass'></p>";
+  modalBodyStr += "<p>Remote Pass : <input type='number' id='rPass' class='form-control' name='rPass' value='rPass'></p>";
+  modalBody.innerHTML = modalBodyStr;
 
-  let postbox = document.querySelector("#post-box");
-  postbox.appendChild(newDiv);
+  let modalFooter = document.createElement("div");
+  modalFooter.setAttribute("class", "modal-footer");
+  modalContent.appendChild(modalFooter);
 
-  submitBtn.addEventListener('click', addPost);
-  submitBtn.addEventListener('click', hidePost);
+  let modalSubmit = document.createElement("button");
+  modalSubmit.setAttribute("id", "submit-btn");
+  modalSubmit.setAttribute("class", "border-0 btn-info comment-btn");
+  modalSubmit.setAttribute("value", "submit");
+  modalSubmit.addEventListener("click", addPost);
+
+  let modalSubmitText = document.createTextNode('Submit');
+  modalSubmit.appendChild(modalSubmitText);
+  modalFooter.appendChild(modalSubmit);
+
+  let modalClose = document.createElement("button");
+  modalClose.setAttribute("class", "border-0 btn-secondary comment-btn");
+  modalClose.setAttribute("data-dismiss", "modal");
+
+  let modalCloseText = document.createTextNode('Close');
+  modalClose.appendChild(modalCloseText);
+  modalFooter.appendChild(modalClose);
 }
+
 
 //addPost() : 기존 게시글에 새 게시글의 데이터를 더하는 함수
 /* 포스트를 생성하게 되면 바로 mypost 화면으로 리다이렉트 된다. */
@@ -395,14 +414,6 @@ function addPost(){
   // allPostHtml(addData, postData.length-1);
 }
 
-//hidePost() : 새 게시글을 생성하는 템플릿을 삭제하는 함수
-function hidePost(){
-  let cardBox = document.querySelector( "#cardBox" );
-  let postBox = document.querySelector( "#post-box" );
-
-  postBox.removeChild(cardBox); 
-
-}
 
 //allComment() : 특정 포스트의 모든 댓글을 출력하는 함수
 function allComment(resultData, num) {
@@ -461,6 +472,7 @@ function allComment(resultData, num) {
 
 }
 
+
 //allCommentView() : 특정 포스트의 모든 댓글을 출력하기 전 거치는 ajax
 function allCommentAjax(num) {
   var url = 'http://192.168.1.136:8888/comment/'+num;
@@ -475,6 +487,7 @@ function allCommentAjax(num) {
   });
 };
 
+
 //hideComment() : 특정 포스트의 모든 댓글을 숨기고 보여주는 함수.
 function hideComment(num) {
   var commentBox = document.querySelector(".commentBody"+num);
@@ -488,6 +501,7 @@ function hideComment(num) {
     arrowDown.innerHTML = 'comment <i class="fa fa-sort-up"></i>';
   }
 }
+
 
 //commitComment() : 특정 포스트에 댓글 생성
 /* 댓글을 생성하게 되면 바로 mypost 화면으로 리다이렉트 된다. */
@@ -518,6 +532,7 @@ function commitComment(num) {
 
   alert("댓글이 성공적으로 등록되었습니다.");
 }
+
 
 //makeFilteringButton() : 메인 페이지에 filtering할 select 버튼 생성
 function makeFilteringButton(){
@@ -554,23 +569,21 @@ function makeFilteringButton(){
   document.getElementById("filterSelect").appendChild(selectThree);
 }
 
+
 //filterOptionCheck() : 필터링할 value 대로 ajax를 걸어주는 함수
 function filterOptionCheck(){
   var selectOption = document.getElementById("filterSelect").value;
   if(selectOption === 'total'){
-    alert("hi total");
     return allPostAjax(selectOption);
   }else if(selectOption === 'three'){
-    alert("hi three");
     return allPostAjax(selectOption);
   }else if(selectOption === 'five'){
-    alert("hi five");
     return allPostAjax(selectOption);
   }else{
-    alert("hi mega");
     return allPostAjax(selectOption);
   }
 }
+
 
 //윈도우가 로드될 때 makeFilteringButton()를 실행시키기 위한 함수
 if (window.addEventListener)

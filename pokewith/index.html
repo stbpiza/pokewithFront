@@ -141,11 +141,12 @@
           <div class="d-flex bd-highlight">
             <div class="p-2 flex-grow-1 bd-highlight"><h1 class="h3 mb-0 text-gray-800">Total Posts</h1></div>
             <div class="p-2 bd-highlight filter"></div>
-            <div class="p-2 bd-highlight"><button id="post-btn" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">posts</button></div>
+            <div class="p-2 bd-highlight"><button id="post-btn" data-toggle="modal" data-target="#exampleModalCenter" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">posts</button></div>
           </div>
 
           <!-- Content Row -->
           <div class="row">
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
             <div id="post-box" class="container-fluid"></div>
           </div>
 
