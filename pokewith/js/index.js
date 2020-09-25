@@ -403,7 +403,17 @@ function addPost(){
   const strObject = JSON.stringify(addData);
 
   var url = 'http://192.168.1.136:8888/index';
-  sendAjax(url, 'POST', strObject);
+  sendAjax(url, 'POST', strObject, function (res) {
+    console.log(res.response);
+    if(res.response == 1) {
+      alert("Post Success!");
+    }else {
+      alert("Post Fail!");
+      window.location.replace("/post");
+    }
+  });
+
+  window.location.reload();
 
   // 밑 부분은 앞으로 서버랑 연결할 때 필요 없는 부분
   // postData.push(addData);
@@ -528,9 +538,16 @@ function commitComment(num) {
   const strObject = JSON.stringify(commitData);
 
   var url = 'http://192.168.1.136:8888/comment';
-  sendAjax(url, 'POST', strObject);
-
-  alert("댓글이 성공적으로 등록되었습니다.");
+  sendAjax(url, 'POST', strObject, function (res) {
+    console.log(res.response);
+    if(res.response == 1) {
+      alert("Comment Success!");
+      window.location.replace("/post");
+    }else {
+      alert("Comment Fail!");
+      window.location.replace("/post");
+    }
+  });
 }
 
 
@@ -569,20 +586,50 @@ function makeFilteringButton(){
   document.getElementById("filterSelect").appendChild(selectThree);
 }
 
+function makeFilterSwich(){
+  let switchBox = document.getElementById("switchDiv");
+
+  let switchInput = document.createElement("input");
+  switchInput.setAttribute("type", "checkbox");
+  switchInput.setAttribute("class", "custom-control-input");
+  switchInput.setAttribute("id", "customSwitch1");
+  switchInput.setAttribute("onchange", "filterOptionCheck()");
+  switchBox.appendChild(switchInput);
+
+  let switchLabel = document.createElement("label");
+  switchLabel.setAttribute("class", "custom-control-label");
+  switchLabel.setAttribute("for", "customSwitch1");
+  switchBox.appendChild(switchLabel);
+}
 
 //filterOptionCheck() : 필터링할 value 대로 ajax를 걸어주는 함수
 function filterOptionCheck(){
   var selectOption = document.getElementById("filterSelect").value;
+  var switchOption = document.getElementById("customSwitch1").checked;
   if(selectOption === 'total'){
+    if(switchOption == true){
+      alert("hi total filter");
+    }
     return allPostAjax(selectOption);
   }else if(selectOption === 'three'){
+    if(switchOption == true){
+      alert("hi three filter");
+    }
     return allPostAjax(selectOption);
   }else if(selectOption === 'five'){
+    if(switchOption == true){
+      alert("hi five filter");
+    }
     return allPostAjax(selectOption);
   }else{
+    if(switchOption == true){
+      alert("hi mega filter");
+    }
     return allPostAjax(selectOption);
   }
 }
+
+
 
 
 //윈도우가 로드될 때 makeFilteringButton()를 실행시키기 위한 함수
@@ -591,5 +638,12 @@ if (window.addEventListener)
 else if (window.attachEvent)
       window.attachEvent("onload", makeFilteringButton);
 else window.onload = makeFilteringButton;
+
+//윈도우가 로드될 때 makeFilteringButton()를 실행시키기 위한 함수
+if (window.addEventListener)
+        window.addEventListener("load", makeFilterSwich, false);
+else if (window.attachEvent)
+      window.attachEvent("onload", makeFilterSwich);
+else window.onload = makeFilterSwich;
 
 
