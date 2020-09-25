@@ -240,4 +240,4 @@ function postUserInfo() {
 window.addEventListener("load", getUserInfo);
 
 // CHECK FUNCTION ON LOCAL TEST
-window.addEventListener("load", loadUserInfo);
+// window.addEventListener("load", loadUserInfo);
