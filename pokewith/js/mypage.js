@@ -41,6 +41,7 @@ function saveUserInfo() {
   const chkName = nameRgx.test(selected[1].value);
   if (!chkName) {
     errMsg.innerText = `Check your Nickname`;
+    selected[0].classList.add("err-display");
     selected[1].value = selected[0].innerText;
   } else {
     errMsg.innerText = "";
@@ -217,7 +218,7 @@ function sendAjax(url, method, data, callback) {
 
 //GET USER INFORMATION
 function getUserInfo() {
-  const url = "/page";
+  const url = "/mypage";
 
   sendAjax(url, "GET", null, function (res) {
     let result = JSON.parse(res.response);
@@ -229,10 +230,15 @@ function getUserInfo() {
 function postUserInfo() {
   let inputData = userInfoInput;
   let jsonData = JSON.stringify(inputData);
-  const url = "/page";
+  const url = "/mypage";
 
-  sendAjax(url, "POST", jsonData, function () {
+  sendAjax(url, "POST", jsonData, function (res) {
     console.log("POST DATA: ", jsonData);
+    if (res == 1) {
+      alert("Your information has been updated. 😉");
+    } else {
+      alert("Faild to update. 😣");
+    }
   });
 }
 
