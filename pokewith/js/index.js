@@ -317,7 +317,10 @@ else window.onload = allPostAjax;
 
 //post 버튼에 onClick 함수 binding
 let postBtn = document.getElementById('post-btn');
-postBtn.addEventListener('click',createPost);
+postBtn.addEventListener('click', createPost);
+
+let miniPostBtn = document.getElementById('miniPost');
+miniPostBtn.addEventListener('click', createPost);
 
 
 //createPost() : 새로운 post 탬플릿 생성 함수
@@ -355,12 +358,15 @@ function createPost(){
                       <option value="5">5</option>
                       <option value="mega">mega</option>
                       </select></p>`;
-  modalBodyStr += "<p>Start Time of Raid : <input type='time' id='startTime' class='form-control' name='startTime'></p>";
-  modalBodyStr += "<p>End Time of Raid : <input type='time' id='endTime' class='form-control' name='endTime'></p>";
-  modalBodyStr += "<p>Minimum Level of Raid : <input type='number' id='minLevel' class='form-control' name='minLevel' value='minLevel'></p>";
+  modalBodyStr += "<p>Start Time of Raid : <input type='datetime-local' id='startTime' class='form-control' name='startTime'></p>";
+  modalBodyStr += "<p>End Time of Raid : <input type='datetime-local' id='endTime' class='form-control' name='endTime'></p>";
+  modalBodyStr += "<p>Minimum Level of Raid : <input type='number' max='40' id='minLevel' class='form-control' name='minLevel' value='minLevel'></p>";
   modalBodyStr += "<p>Premium Pass : <input type='number' id='nPass' class='form-control' name='nPass' value='nPass'></p>";
   modalBodyStr += "<p>Remote Pass : <input type='number' id='rPass' class='form-control' name='rPass' value='rPass'></p>";
   modalBody.innerHTML = modalBodyStr;
+
+  document.getElementById("startTime").value= new Date().toISOString().slice(0, 16);
+  document.getElementById("endTime").value= new Date().toISOString().slice(0, 16);
 
   let modalFooter = document.createElement("div");
   modalFooter.setAttribute("class", "modal-footer");
@@ -390,11 +396,12 @@ function createPost(){
 /* 포스트를 생성하게 되면 바로 mypost 화면으로 리다이렉트 된다. */
 function addPost(){
   alert("포스트가 성공적으로 등록되었습니다.");
+
   const addData = {
     pokemon : document.getElementById("pokemon").value,
     raidLevel : document.getElementById("raidLevel").value,
-    startTime : document.getElementById("startTime").value,
-    endTime : document.getElementById("endTime").value,
+    startTime : document.getElementById("startTime").value.slice(11),
+    endTime : document.getElementById("endTime").value.slice(11),
     minLevel : document.getElementById("minLevel").value,
     nPass : document.getElementById("nPass").value,
     rPass : document.getElementById("rPass").value,
@@ -403,17 +410,7 @@ function addPost(){
   const strObject = JSON.stringify(addData);
 
   var url = 'http://192.168.1.136:8888/index';
-  sendAjax(url, 'POST', strObject, function (res) {
-    console.log(res.response);
-    if(res.response == 1) {
-      alert("Post Success!");
-    }else {
-      alert("Post Fail!");
-      window.location.replace("/post");
-    }
-  });
-
-  window.location.reload();
+  sendAjax(url, 'POST', strObject);
 
   // 밑 부분은 앞으로 서버랑 연결할 때 필요 없는 부분
   // postData.push(addData);
@@ -538,16 +535,9 @@ function commitComment(num) {
   const strObject = JSON.stringify(commitData);
 
   var url = 'http://192.168.1.136:8888/comment';
-  sendAjax(url, 'POST', strObject, function (res) {
-    console.log(res.response);
-    if(res.response == 1) {
-      alert("Comment Success!");
-      window.location.replace("/post");
-    }else {
-      alert("Comment Fail!");
-      window.location.replace("/post");
-    }
-  });
+  sendAjax(url, 'POST', strObject);
+
+  alert("댓글이 성공적으로 등록되었습니다.");
 }
 
 
@@ -586,50 +576,20 @@ function makeFilteringButton(){
   document.getElementById("filterSelect").appendChild(selectThree);
 }
 
-function makeFilterSwich(){
-  let switchBox = document.getElementById("switchDiv");
-
-  let switchInput = document.createElement("input");
-  switchInput.setAttribute("type", "checkbox");
-  switchInput.setAttribute("class", "custom-control-input");
-  switchInput.setAttribute("id", "customSwitch1");
-  switchInput.setAttribute("onchange", "filterOptionCheck()");
-  switchBox.appendChild(switchInput);
-
-  let switchLabel = document.createElement("label");
-  switchLabel.setAttribute("class", "custom-control-label");
-  switchLabel.setAttribute("for", "customSwitch1");
-  switchBox.appendChild(switchLabel);
-}
 
 //filterOptionCheck() : 필터링할 value 대로 ajax를 걸어주는 함수
 function filterOptionCheck(){
   var selectOption = document.getElementById("filterSelect").value;
-  var switchOption = document.getElementById("customSwitch1").checked;
   if(selectOption === 'total'){
-    if(switchOption == true){
-      alert("hi total filter");
-    }
     return allPostAjax(selectOption);
   }else if(selectOption === 'three'){
-    if(switchOption == true){
-      alert("hi three filter");
-    }
     return allPostAjax(selectOption);
   }else if(selectOption === 'five'){
-    if(switchOption == true){
-      alert("hi five filter");
-    }
     return allPostAjax(selectOption);
   }else{
-    if(switchOption == true){
-      alert("hi mega filter");
-    }
     return allPostAjax(selectOption);
   }
 }
-
-
 
 
 //윈도우가 로드될 때 makeFilteringButton()를 실행시키기 위한 함수
@@ -638,12 +598,5 @@ if (window.addEventListener)
 else if (window.attachEvent)
       window.attachEvent("onload", makeFilteringButton);
 else window.onload = makeFilteringButton;
-
-//윈도우가 로드될 때 makeFilteringButton()를 실행시키기 위한 함수
-if (window.addEventListener)
-        window.addEventListener("load", makeFilterSwich, false);
-else if (window.attachEvent)
-      window.attachEvent("onload", makeFilterSwich);
-else window.onload = makeFilterSwich;
 
 
